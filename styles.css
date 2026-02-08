@@ -253,12 +253,24 @@ section {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 32px;
+  align-items: start;
 }
 
-.about-text,
 .about-image {
   padding: 28px;
   border-radius: 20px;
+  max-height: 640px;
+  max-width: 420px;
+}
+
+.about-text {
+  padding: 28px;
+  border-radius: 20px;
+}
+
+.about-image img {
+  height: 100%;
+  object-fit: cover;
 }
 
 .project-grid {
