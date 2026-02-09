@@ -51,24 +51,56 @@ const track = document.querySelector('.carousel-track');
 const slides = Array.from(document.querySelectorAll('.testimonial'));
 const prevBtn = document.getElementById('prevTestimonial');
 const nextBtn = document.getElementById('nextTestimonial');
-let currentIndex = 0;
+
+const firstClone = slides[0].cloneNode(true);
+const lastClone = slides[slides.length - 1].cloneNode(true);
+firstClone.classList.add('clone');
+lastClone.classList.add('clone');
+track.appendChild(firstClone);
+track.prepend(lastClone);
+
+const totalSlides = slides.length;
+let currentIndex = 1;
 
 const updateCarousel = () => {
   track.style.transform = `translateX(-${currentIndex * 100}%)`;
 };
 
+track.style.transition = 'transform 0.6s ease';
+updateCarousel();
+
 prevBtn.addEventListener('click', () => {
-  currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+  currentIndex -= 1;
   updateCarousel();
 });
 
 nextBtn.addEventListener('click', () => {
-  currentIndex = (currentIndex + 1) % slides.length;
+  currentIndex += 1;
   updateCarousel();
 });
 
+track.addEventListener('transitionend', () => {
+  if (currentIndex === 0) {
+    track.style.transition = 'none';
+    currentIndex = totalSlides;
+    updateCarousel();
+    requestAnimationFrame(() => {
+      track.style.transition = 'transform 0.6s ease';
+    });
+  }
+
+  if (currentIndex === totalSlides + 1) {
+    track.style.transition = 'none';
+    currentIndex = 1;
+    updateCarousel();
+    requestAnimationFrame(() => {
+      track.style.transition = 'transform 0.6s ease';
+    });
+  }
+});
+
 setInterval(() => {
-  currentIndex = (currentIndex + 1) % slides.length;
+  currentIndex += 1;
   updateCarousel();
 }, 7000);
 

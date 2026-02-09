@@ -31,6 +31,11 @@ a {
   text-decoration: none;
 }
 
+mark {
+  background: #06162c;
+  color: var(--text);
+}
+
 img {
   max-width: 100%;
   display: block;
@@ -223,7 +228,7 @@ section {
 .hero-visual {
   position: relative;
   z-index: 2;
-  padding: 18px;
+  padding: 1px;
   border-radius: 20px;
 }
 
@@ -265,7 +270,7 @@ section {
   padding: 28px;
   border-radius: 20px;
   max-height: 640px;
-  max-width: 420px;
+  max-width: 480px;
 }
 
 .about-text {
@@ -398,8 +403,8 @@ section {
 }
 
 .testimonial-avatar {
-  width: 44px;
-  height: 44px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid rgba(138, 211, 255, 0.5);
@@ -409,6 +414,18 @@ section {
 
 .testimonial-content h4 {
   margin-top: 8px;
+}
+
+.testimonial-content h4 a {
+  color: var(--sky);
+  transition: var(--transition);
+  display: inline-block;
+  cursor: pointer;
+}
+
+.testimonial-content h4 a:hover {
+  color: var(--cyan);
+  text-decoration: underline;
 }
 
 .carousel-controls {
