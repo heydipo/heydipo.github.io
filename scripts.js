@@ -51,6 +51,7 @@ const track = document.querySelector('.carousel-track');
 const slides = Array.from(document.querySelectorAll('.testimonial'));
 const prevBtn = document.getElementById('prevTestimonial');
 const nextBtn = document.getElementById('nextTestimonial');
+const carousel = document.querySelector('.carousel');
 
 const firstClone = slides[0].cloneNode(true);
 const lastClone = slides[slides.length - 1].cloneNode(true);
@@ -61,6 +62,7 @@ track.prepend(lastClone);
 
 const totalSlides = slides.length;
 let currentIndex = 1;
+let autoAdvanceTimer = null;
 
 const updateCarousel = () => {
   track.style.transform = `translateX(-${currentIndex * 100}%)`;
@@ -84,25 +86,42 @@ track.addEventListener('transitionend', () => {
     track.style.transition = 'none';
     currentIndex = totalSlides;
     updateCarousel();
-    requestAnimationFrame(() => {
-      track.style.transition = 'transform 0.6s ease';
-    });
+    // Force a reflow before re-enabling transition
+    void track.offsetHeight;
+    track.style.transition = 'transform 0.6s ease';
   }
 
   if (currentIndex === totalSlides + 1) {
     track.style.transition = 'none';
     currentIndex = 1;
     updateCarousel();
-    requestAnimationFrame(() => {
-      track.style.transition = 'transform 0.6s ease';
-    });
+    // Force a reflow before re-enabling transition
+    void track.offsetHeight;
+    track.style.transition = 'transform 0.6s ease';
   }
 });
 
-setInterval(() => {
-  currentIndex += 1;
-  updateCarousel();
-}, 7000);
+const startAutoAdvance = () => {
+  if (autoAdvanceTimer) return; // Already running
+  autoAdvanceTimer = setInterval(() => {
+    currentIndex += 1;
+    updateCarousel();
+  }, 7000);
+};
+
+const stopAutoAdvance = () => {
+  if (autoAdvanceTimer) {
+    clearInterval(autoAdvanceTimer);
+    autoAdvanceTimer = null;
+  }
+};
+
+// Hover pause/resume functionality
+carousel.addEventListener('mouseenter', stopAutoAdvance);
+carousel.addEventListener('mouseleave', startAutoAdvance);
+
+// Start the carousel auto-advance on page load
+startAutoAdvance();
 
 // Optional parallax floating effect
 const heroVisual = document.querySelector('.hero-visual');
