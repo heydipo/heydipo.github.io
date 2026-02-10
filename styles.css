@@ -265,6 +265,30 @@ section {
   align-items: start;
 }
 
+.about-card {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  gap: 24px;
+  padding: 2px;
+  border-radius: 24px;
+}
+
+.about-card.glass {
+  border: none;
+}
+
+.about-card-content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  padding: 28px;
+  background: #223C5D;
+  border-radius: calc(20px - 2px);
+}
+
 .about-image {
   padding: 28px;
   border-radius: 20px;
@@ -289,9 +313,69 @@ section {
 }
 
 .project-card {
-  padding: 20px;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  padding: 2px;
   border-radius: 20px;
   transition: var(--transition);
+}
+
+.project-card.glass {
+  border: none;
+}
+
+.project-card-content {
+  position: relative;
+  z-index: 1;
+  background: #1B2B3F;
+  border-radius: calc(20px - 2px);
+  padding: 20px;
+}
+
+.animated-border-box,
+.animated-border-box-glow {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.animated-border-box-glow {
+  filter: blur(20px);
+}
+
+.animated-border-box::before,
+.animated-border-box-glow::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(0deg);
+  width: 99999px;
+  height: 99999px;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-image: conic-gradient(
+    rgba(0, 0, 0, 0),
+    #1976ed,
+    rgba(0, 0, 0, 0) 25%
+  );
+  animation: rotate 4s linear infinite;
+}
+
+.animated-border-box::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 2px;
+  top: 2px;
+  width: calc(100% - 4px);
+  height: calc(100% - 4px);
+  background: var(--glass-bg);
+  border-radius: calc(20px - 2px);
 }
 
 .project-card:hover {
@@ -301,6 +385,19 @@ section {
 
 .project-card h3 {
   margin: 16px 0 10px;
+}
+
+@keyframes rotate {
+  100% {
+    transform: translate(-50%, -50%) rotate(1turn);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animated-border-box::before,
+  .animated-border-box-glow::before {
+    animation: none;
+  }
 }
 
 .why-flow {
