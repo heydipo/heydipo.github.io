@@ -107,32 +107,36 @@ window.addEventListener('scroll', () => {
 // Basin contact form handling
 const contactForm = document.getElementById('contactFormBasin');
 const formFeedback = document.getElementById('formFeedback');
-const basinToken = '53960b8e9ba6';
 
 if (contactForm) {
   contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
+    const submitBtn = contactForm.querySelector('.submit-btn');
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Sending...';
+    submitBtn.disabled = true;
+
     const formData = new FormData(contactForm);
 
     try {
-      const response = await fetch(`https://usebasin.com/api/v1/submit/${basinToken}`, {
+      const response = await fetch('https://usebasin.com/f/53960b8e9ba6', {
         method: 'POST',
         body: formData
       });
 
-      if (response.ok) {
-        formFeedback.textContent = 'Message sent successfully! I\'ll get back to you within 48 hours.';
-        formFeedback.classList.remove('error');
-        formFeedback.classList.add('success');
-        contactForm.reset();
-      } else {
-        throw new Error('Form submission failed');
-      }
+      formFeedback.textContent = 'Message sent successfully! I\'ll get back to you within 48 hours.';
+      formFeedback.classList.remove('error');
+      formFeedback.classList.add('success');
+      contactForm.reset();
+      submitBtn.textContent = originalText;
+      submitBtn.disabled = false;
     } catch (error) {
       formFeedback.textContent = 'Oops! Something went wrong. Please try again.';
       formFeedback.classList.remove('success');
       formFeedback.classList.add('error');
+      submitBtn.textContent = originalText;
+      submitBtn.disabled = false;
     }
 
     // Clear feedback message after 5 seconds
