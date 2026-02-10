@@ -1,8 +1,4 @@
 const smoothLinks = document.querySelectorAll('a[href^="#"]');
-const modal = document.getElementById('contactModal');
-const openButtons = [document.getElementById('openModal'), document.getElementById('openModalHero')];
-const closeBackdrop = document.getElementById('closeModal');
-const closeBtn = document.getElementById('closeModalBtn');
 const navToggle = document.querySelector('.nav-toggle');
 const navLinks = document.querySelector('.nav-links');
 
@@ -18,28 +14,6 @@ smoothLinks.forEach(link => {
       }
     }
   });
-});
-
-openButtons.forEach(btn => {
-  if (!btn) return;
-  btn.addEventListener('click', () => {
-    modal.classList.add('active');
-    modal.setAttribute('aria-hidden', 'false');
-  });
-});
-
-[closeBackdrop, closeBtn].forEach(btn => {
-  btn.addEventListener('click', () => {
-    modal.classList.remove('active');
-    modal.setAttribute('aria-hidden', 'true');
-  });
-});
-
-document.addEventListener('keydown', event => {
-  if (event.key === 'Escape' && modal.classList.contains('active')) {
-    modal.classList.remove('active');
-    modal.setAttribute('aria-hidden', 'true');
-  }
 });
 
 navToggle.addEventListener('click', () => {
@@ -129,3 +103,41 @@ window.addEventListener('scroll', () => {
   const offset = window.scrollY * 0.15;
   heroVisual.style.transform = `translateY(${offset}px)`;
 });
+
+// Basin contact form handling
+const contactForm = document.getElementById('contactFormBasin');
+const formFeedback = document.getElementById('formFeedback');
+const basinToken = '53960b8e9ba6';
+
+if (contactForm) {
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(contactForm);
+
+    try {
+      const response = await fetch(`https://usebasin.com/api/v1/submit/${basinToken}`, {
+        method: 'POST',
+        body: formData
+      });
+
+      if (response.ok) {
+        formFeedback.textContent = 'Message sent successfully! I\'ll get back to you within 48 hours.';
+        formFeedback.classList.remove('error');
+        formFeedback.classList.add('success');
+        contactForm.reset();
+      } else {
+        throw new Error('Form submission failed');
+      }
+    } catch (error) {
+      formFeedback.textContent = 'Oops! Something went wrong. Please try again.';
+      formFeedback.classList.remove('success');
+      formFeedback.classList.add('error');
+    }
+
+    // Clear feedback message after 5 seconds
+    setTimeout(() => {
+      formFeedback.classList.remove('success', 'error');
+    }, 5000);
+  });
+}
