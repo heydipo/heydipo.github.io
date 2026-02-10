@@ -25,7 +25,7 @@
         <li><a href="#testimonials">Testimonials</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
-      <button class="primary-btn" id="openModal">Contact Me</button>
+      <a class="primary-btn" href="https://www.behance.net/gallery/242140471/UIUX-Portfolio-Dipo" target="_blank" rel="noopener noreferrer">View Portfolio</a>
     </nav>
   </header>
 
@@ -114,19 +114,19 @@
       </div>
       <div class="project-grid">
         <article class="project-card glass">
-          <img src="assets/projects/project-1.png" alt="Abstract blue gradient" />
+          <img src="assets/projects/project-1.webp" alt="Abstract blue gradient" />
           <h3>HealthTech Claim AI</h3>
           <p>An AI-driven claim intelligence web application designed to assist insurance operations teams in effectively monitoring, analyzing, and optimizing health insurance claim processing in real-time. This advanced platform leverages artificial intelligence to provide comprehensive insights and actionable data.</p><br>
           <button class="ghost-btn">View Case Study</button>
         </article>
         <article class="project-card glass">
-          <img src="assets/projects/project-2.png" alt="Deep ocean blue" />
+          <img src="assets/projects/project-2.webp" alt="Deep ocean blue" />
           <h3>AGIS — Agentic AI Platform</h3>
           <p>AGIS is a next-generation Al-powered knowledge management platform designed to capture, structure, and apply organizational knowledge efficiently.</p><br>
           <button class="ghost-btn">View Case Study</button>
         </article>
         <article class="project-card glass">
-          <img src="assets/projects/project-3.png" alt="Sky to sea tones" />
+          <img src="assets/projects/project-3.webp" alt="Sky to sea tones" />
           <h3>Business Banking Financing Platform</h3>
           <p>The Business Banking Financing Platform is a system designed to support small and medium enterprises (SMEs) in applying for business financing through Digital Bank. The product streamlines the end-to- end financing journey, from application submission to internal review and approval, while balancing user clarity, operational efficiency, and regulatory requirements.</p><br>
           <button class="ghost-btn">View Case Study</button>
@@ -141,11 +141,13 @@
       </div>
       <div class="skill-grid">
         <div class="skill-card glass"><i class="fa-solid fa-compass-drafting"></i><span>UX Strategy</span></div>
-        <div class="skill-card glass"><i class="fa-solid fa-layer-group"></i><span>UI Design Systems</span></div>
+        <div class="skill-card glass"><i class="fa-solid fa-layer-group"></i><span>Visual Design</span></div>
         <div class="skill-card glass"><i class="fa-solid fa-users"></i><span>User Research</span></div>
         <div class="skill-card glass"><i class="fa-solid fa-cube"></i><span>Prototyping</span></div>
         <div class="skill-card glass"><i class="fa-solid fa-brain"></i><span>AI Product Design</span></div>
         <div class="skill-card glass"><i class="fa-brands fa-figma"></i><span>Figma</span></div>
+        <div class="skill-card glass"><i class="fa-solid fa-chart-line"></i><span>Business Analysis</span></div>
+        <div class="skill-card glass"><i class="fa-solid fa-handshake"></i><span>Collaborative</span></div>
       </div>
     </section>
 
@@ -197,7 +199,7 @@
         <p>Ready to dive deeper? Let’s design something intelligent together.</p>
       </div>
       <div class="contact-card glass">
-        <form class="contact-form">
+        <form class="contact-form" id="contactFormBasin">
           <div class="input-group">
             <label for="name">Name</label>
             <input type="text" id="name" name="name" placeholder="Your name" required />
@@ -211,6 +213,7 @@
             <textarea id="message" name="message" rows="4" placeholder="Tell me about your AI or UX challenge" required></textarea>
           </div>
           <button type="submit" class="primary-btn submit-btn">Send Message</button>
+          <div class="form-feedback" id="formFeedback"></div>
         </form>
         <div class="contact-image">
           <img src="assets/general/contact.webp" alt="Futuristic blue" />
@@ -229,21 +232,6 @@
       </div>
     </div>
   </footer>
-
-  <div class="modal" id="contactModal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
-    <div class="modal-backdrop" id="closeModal"></div>
-    <div class="modal-content glass">
-      <button class="modal-close" id="closeModalBtn" aria-label="Close">×</button>
-      <h3 id="modalTitle">Let’s build your next intelligent experience</h3>
-      <p>Share your vision — I’ll reply within 48 hours.</p>
-      <form class="modal-form">
-        <input type="text" placeholder="Name" required />
-        <input type="email" placeholder="Email" required />
-        <textarea rows="4" placeholder="Project details" required></textarea>
-        <button type="submit" class="primary-btn">Send</button>
-      </form>
-    </div>
-  </div>
 
   <script src="scripts.js"></script>
 </body>
