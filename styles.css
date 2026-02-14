@@ -560,6 +560,7 @@ section {
 .contact-form {
   display: grid;
   gap: 18px;
+  min-width: 0;
 }
 
 .input-group {
@@ -584,6 +585,7 @@ section {
 }
 
 .contact-image img {
+  width: 100%;
   height: 100%;
   object-fit: cover;
 }
@@ -745,5 +747,19 @@ section {
   .hero-actions {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .contact-card {
+    grid-template-columns: 1fr;
+    padding: 18px;
+  }
+
+  .contact-image {
+    min-width: 0;
+  }
+
+  .contact-image img {
+    height: auto;
+    max-height: 360px;
   }
 }
