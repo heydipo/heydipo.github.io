@@ -7,7 +7,14 @@ smoothLinks.forEach(link => {
     const targetId = link.getAttribute('href');
     if (targetId.length > 1) {
       event.preventDefault();
-      document.querySelector(targetId).scrollIntoView({ behavior: 'smooth' });
+      if (targetId === '#top') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
       if (navLinks.classList.contains('active')) {
         navLinks.classList.remove('active');
         navToggle.setAttribute('aria-expanded', 'false');

@@ -18,6 +18,10 @@
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: "Inter", sans-serif;
   background: radial-gradient(circle at top, #173c6b 0%, #07192f 45%, #040b18 100%);
