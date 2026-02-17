@@ -1,6 +1,70 @@
 const smoothLinks = document.querySelectorAll('a[href^="#"]');
 const navToggle = document.querySelector('.nav-toggle');
 const navLinks = document.querySelector('.nav-links');
+const trackableButtonSelector = 'button, a.primary-btn, a.ghost-btn';
+
+const trackButtonClick = (meta) => {
+  if (typeof window.gtag !== 'function') return;
+  window.gtag('event', 'button_click', meta);
+};
+
+const normalizeClasses = (element) => Array.from(element.classList).join(' ').trim();
+
+const getDestinationUrl = (element) => {
+  if (element.tagName === 'A') {
+    const href = element.getAttribute('href');
+    if (!href) return '';
+    try {
+      return new URL(href, window.location.href).href;
+    } catch (error) {
+      return href;
+    }
+  }
+
+  const onclickValue = element.getAttribute('onclick') || '';
+  const match = onclickValue.match(/window\.location(?:\.href)?\s*=\s*['"]([^'"]+)['"]/i);
+  if (!match) return '';
+
+  try {
+    return new URL(match[1], window.location.href).href;
+  } catch (error) {
+    return match[1];
+  }
+};
+
+const getInteractionKind = (element, destinationUrl) => {
+  if (element.matches('[type="submit"], .submit-btn')) return 'form_submit';
+  if (element.id === 'prevTestimonial' || element.id === 'nextTestimonial' || element.closest('.carousel-controls')) {
+    return 'carousel_control';
+  }
+  if (element.classList.contains('nav-toggle')) return 'ui_toggle';
+  if (element.tagName === 'A' || destinationUrl) return 'navigation';
+  return 'other';
+};
+
+document.addEventListener('click', (event) => {
+  if (!event.isTrusted) return;
+  if (!(event.target instanceof Element)) return;
+
+  const clickedButton = event.target.closest(trackableButtonSelector);
+  if (!clickedButton) return;
+
+  const destinationUrl = getDestinationUrl(clickedButton);
+  const buttonText = (clickedButton.dataset.trackLabel || clickedButton.textContent || clickedButton.getAttribute('aria-label') || '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  const section = clickedButton.closest('section[id], header[id], footer[id], main[id]');
+
+  trackButtonClick({
+    button_text: buttonText,
+    button_id: clickedButton.id || '',
+    button_classes: normalizeClasses(clickedButton),
+    button_type: clickedButton.tagName === 'A' ? 'link_button' : 'button',
+    section: section?.id || 'unknown',
+    destination_url: destinationUrl,
+    interaction_kind: getInteractionKind(clickedButton, destinationUrl)
+  });
+});
 
 smoothLinks.forEach(link => {
   link.addEventListener('click', event => {
