@@ -586,8 +586,12 @@ section {
 
 .contact-image img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  object-fit: contain;
+}
+
+.contact-image {
+  min-width: 0;
 }
 
 .form-feedback {
@@ -754,12 +758,8 @@ section {
     padding: 18px;
   }
 
-  .contact-image {
-    min-width: 0;
-  }
-
   .contact-image img {
-    height: auto;
     max-height: 360px;
+    object-position: center;
   }
 }
