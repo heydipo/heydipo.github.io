@@ -584,6 +584,10 @@ section {
   box-shadow: 0 0 0 2px rgba(138, 211, 255, 0.25);
 }
 
+.input-group textarea {
+  resize: vertical;
+}
+
 .contact-image img {
   width: 100%;
   height: auto;
@@ -679,6 +683,10 @@ section {
   border-radius: 12px;
   padding: 12px 14px;
   color: var(--text);
+}
+
+.modal-form textarea {
+  resize: vertical;
 }
 
 .modal-close {
