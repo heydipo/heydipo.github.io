@@ -187,13 +187,13 @@ section {
   padding-top: 140px;
 }
 
-.hero-bg {
+#heroWaves {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #8ad3ff 0%, #1f4d8a 35%, #041325 80%);
-  opacity: 0.35;
-  animation: gradientFlow 12s ease-in-out infinite alternate;
+  width: 100%;
+  height: 100%;
   z-index: 0;
+  pointer-events: none;
 }
 
 .hero-content {
@@ -235,6 +235,22 @@ section {
   border-radius: 20px;
 }
 
+#heroCaustics {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero-visual img {
+  position: relative;
+  z-index: 2;
+}
+
 .floating-particles {
   position: absolute;
   inset: 0;
@@ -242,20 +258,12 @@ section {
   background-size: 50px 50px;
   opacity: 0.35;
   animation: floatParticles 18s linear infinite;
+  border-radius: 20px;
+  z-index: 3;
+  pointer-events: none;
 }
 
-.light-rays {
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    120deg,
-    rgba(138, 211, 255, 0.08),
-    rgba(138, 211, 255, 0.01) 120px
-  );
-  opacity: 0.5;
-  pointer-events: none;
-  mix-blend-mode: screen;
-}
+
 
 .about {
   max-width: 1100px;
@@ -633,11 +641,6 @@ section {
 
 .socials a:hover {
   color: var(--sky);
-}
-
-@keyframes gradientFlow {
-  0% { transform: scale(1) translateY(0); }
-  100% { transform: scale(1.1) translateY(20px); }
 }
 
 @keyframes floatParticles {
