@@ -289,13 +289,13 @@ section {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 24px;
-  padding: 28px;
+  padding: 12px;
   background: #223C5D;
   border-radius: calc(20px - 2px);
 }
 
 .about-image {
-  padding: 28px;
+  padding: 12px;
   border-radius: 20px;
   max-height: 640px;
   max-width: 480px;
@@ -554,7 +554,7 @@ section {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 24px;
-  padding: 28px;
+  padding:12px;
   border-radius: 24px;
 }
 
