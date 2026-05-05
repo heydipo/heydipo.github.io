@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ page.title }} — heyDipo Journal</title>
+  <link rel="icon" type="x-icon" href="/assets/general/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #06162c;
+      --deep: #0b2346;
+      --azure: #46b4ff;
+      --sky: #8ad3ff;
+      --cyan: #b5f1ff;
+      --glass-bg: rgba(135, 206, 235, 0.12);
+      --glass-border: rgba(173, 216, 230, 0.3);
+      --shadow: 0 8px 32px rgba(0, 40, 80, 0.4);
+      --text: #e8f6ff;
+      --muted: #b8d6ea;
+      --transition: 0.3s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      background: radial-gradient(circle at top, #173c6b 0%, #07192f 45%, #040b18 100%);
+      color: var(--text);
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 12px;
+      margin: 2rem 0;
+    }
+
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      margin-bottom: 1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    p, li {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      color: var(--text);
+    }
+
+    p:last-of-type {
+      margin-bottom: 0;
+    }
+
+    ul, ol {
+      margin-left: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    li {
+      margin-bottom: 0.8rem;
+    }
+
+    strong {
+      color: var(--sky);
+      font-weight: 600;
+    }
+
+    em {
+      color: var(--cyan);
+      font-style: italic;
+    }
+
+    blockquote {
+      border-left: 3px solid var(--sky);
+      padding-left: 1.5rem;
+      margin: 2rem 0;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    code {
+      background: rgba(70, 180, 255, 0.1);
+      border: 1px solid var(--glass-border);
+      padding: 0.3rem 0.6rem;
+      border-radius: 4px;
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 0.95rem;
+      color: var(--cyan);
+    }
+
+    pre {
+      background: rgba(11, 35, 70, 0.6);
+      border: 1px solid var(--glass-border);
+      padding: 1.5rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 1.5rem 0;
+    }
+
+    pre code {
+      background: none;
+      border: none;
+      padding: 0;
+      color: var(--sky);
+    }
+
+    /* Back button link */
+    .back-link {
+      display: inline-block;
+      margin-bottom: 2rem;
+      color: var(--sky);
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .back-link:hover {
+      color: var(--cyan);
+    }
+
+    .back-link::before {
+      content: "← ";
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <a href="/journal/" class="back-link">Back to journal</a>
+    <article>
+      <h1>{{ page.title }}</h1>
+      <div class="content">
+        {{ content }}
+      </div>
+    </article>
+  </main>
+</body>
+</html>

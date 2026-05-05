@@ -1,0 +1,223 @@
+---
+layout: default
+title: Journal
+permalink: /journal/
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Journal — heyDipo</title>
+  <link rel="icon" type="x-icon" href="/assets/general/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #06162c;
+      --deep: #0b2346;
+      --azure: #46b4ff;
+      --sky: #8ad3ff;
+      --cyan: #b5f1ff;
+      --glass-bg: rgba(135, 206, 235, 0.12);
+      --glass-border: rgba(173, 216, 230, 0.3);
+      --shadow: 0 8px 32px rgba(0, 40, 80, 0.4);
+      --text: #e8f6ff;
+      --muted: #b8d6ea;
+      --transition: 0.3s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      background: radial-gradient(circle at top, #173c6b 0%, #07192f 45%, #040b18 100%);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+
+    .journal-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .journal-header h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .journal-header p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .journal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .journal-item {
+      cursor: pointer;
+      transition: transform var(--transition), filter var(--transition);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .journal-item:hover {
+      transform: translateY(-8px);
+      filter: brightness(1.1);
+    }
+
+    .journal-item-thumbnail {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: linear-gradient(135deg, rgba(70, 180, 255, 0.3), rgba(181, 241, 255, 0.2));
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      color: var(--cyan);
+      opacity: 1;
+    }
+
+    .journal-item-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+      color: var(--text);
+    }
+
+    .journal-item-meta {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: auto;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem 2rem;
+      color: var(--muted);
+    }
+
+    .empty-state p {
+      font-size: 1.05rem;
+    }
+
+    @media (max-width: 768px) {
+      main {
+        padding: 2rem 1.5rem;
+      }
+
+      .journal-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .journal-header {
+        margin-bottom: 2.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .journal-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="journal-header">
+      <h1>Journal</h1>
+      <p>A collection of thoughts, observations, and reflections.</p>
+    </div>
+
+    <div class="journal-grid" id="journalGrid">
+      <!-- Posts will be injected here by JavaScript -->
+    </div>
+
+    <div id="emptyState" class="empty-state" style="display: none;">
+      <p>No entries yet. Check back soon.</p>
+    </div>
+  </main>
+
+  <script>
+    // Array of journal posts data
+    const posts = [
+      {% for post in site.journal %}
+        {
+          title: {{ post.title | jsonify }},
+          url: {{ post.url | jsonify }}
+        }{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    ];
+
+    // Fisher-Yates shuffle algorithm
+    function shuffleArray(array) {
+      const shuffled = [...array];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    }
+
+    // Render posts
+    function renderJournal() {
+      const grid = document.getElementById('journalGrid');
+      const emptyState = document.getElementById('emptyState');
+
+      if (posts.length === 0) {
+        emptyState.style.display = 'block';
+        return;
+      }
+
+      const shuffledPosts = shuffleArray(posts);
+
+      grid.innerHTML = shuffledPosts.map(post => `
+        <a href="${post.url}" class="journal-item" target="_blank" rel="noopener noreferrer">
+          <div class="journal-item-thumbnail">📖</div>
+          <div class="journal-item-title">${post.title}</div>
+          <div class="journal-item-meta">Read entry</div>
+        </a>
+      `).join('');
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', renderJournal);
+  </script>
+</body>
+</html>
