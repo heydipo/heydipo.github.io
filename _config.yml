@@ -4,17 +4,12 @@ baseurl: ""
 url: "https://heydipo.github.io"
 
 markdown: kramdown
-permalink: /:collection/:title/
-
-collections:
-  journal:
-    output: true
-    permalink: /journal/:title/
+permalink: /journal/:title/
 
 defaults:
   - scope:
-      path: ""
-      type: "journal"
+      path: "_posts"
+      type: "posts"
     values:
       layout: "post"
 
