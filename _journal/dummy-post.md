@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "The Art of Listening"
+title: "dummy post"
 ---
 
 Every designer knows that listening is the foundation of good design. But what does it really mean to listen?

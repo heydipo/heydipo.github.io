@@ -176,7 +176,7 @@ permalink: /journal/
   <script>
     // Array of journal posts data
     const posts = [
-      {% for post in site.posts %}
+      {% for post in site.journal %}
         {
           title: {{ post.title | jsonify }},
           url: {{ post.url | jsonify }}
