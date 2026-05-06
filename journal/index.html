@@ -103,7 +103,7 @@ permalink: /journal/
       /* Fortune card aspect ratio */
       background: linear-gradient(135deg, rgba(70, 180, 255, 0.3), rgba(181, 241, 255, 0.2));
       border: 1px solid var(--glass-border);
-      border-radius: 16px;
+      border-radius: 62px;
       /* Slightly rounder corners for cards */
       margin-bottom: 0;
       display: flex;
@@ -185,12 +185,12 @@ permalink: /journal/
     // Array of journal posts data
     const posts = [
       {% for post in site.journal %}
-        {
-          title: {{ post.title | jsonify }},
-          url: {{ post.url | jsonify }},
-          thumbnail: {{ post.thumbnail | jsonify }}
-        }{% unless forloop.last %},{% endunless %}
-      {% endfor %}
+    {
+      title: { { post.title | jsonify } },
+      url: { { post.url | jsonify } },
+      thumbnail: { { post.thumbnail | jsonify } }
+    } {% unless forloop.last %}, {% endunless %}
+    {% endfor %}
     ];
 
     // Fisher-Yates shuffle algorithm
