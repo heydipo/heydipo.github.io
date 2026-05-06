@@ -185,12 +185,12 @@ permalink: /journal/
     // Array of journal posts data
     const posts = [
       {% for post in site.journal %}
-    {
-      title: { { post.title | jsonify } },
-      url: { { post.url | jsonify } },
-      thumbnail: { { post.thumbnail | jsonify } }
-    } {% unless forloop.last %}, {% endunless %}
-    {% endfor %}
+        {
+          title: {{ post.title | jsonify }},
+          url: {{ post.url | jsonify }},
+          thumbnail: {{ post.thumbnail | jsonify }}
+        }{% unless forloop.last %},{% endunless %}
+      {% endfor %}
     ];
 
     // Fisher-Yates shuffle algorithm
