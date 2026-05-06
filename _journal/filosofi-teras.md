@@ -3,7 +3,6 @@ layout: post
 title: "Filosofi Teras"
 thumbnail: "/assets/journal/filosofi-teras.webp"
 ---
-# Lesson Notes: Filosofi Teras
 
 - Saat kita khawatir tanpa menghasilkan solusi, kita sudah membuang waktu yang sebenarnya bisa digunakan untuk hal-hal lain yang lebih berguna. (5)
 
