@@ -216,7 +216,7 @@ permalink: /journal/
       const shuffledPosts = shuffleArray(posts);
 
       grid.innerHTML = shuffledPosts.map(post => `
-        <a href="${post.url}" class="journal-item" target="_blank" rel="noopener noreferrer">
+        <a href="${post.url}" class="journal-item" target="_self" rel="noopener noreferrer">
           <div class="journal-item-thumbnail" ${post.thumbnail ? `style="background-image: url('${post.thumbnail}')"` : ''}>
             ${post.thumbnail ? '' : '📖'}
           </div>
