@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Think Again"
+author: "A book by Adam Grant"
 thumbnail: "/assets/journal/think-again.webp"
 ---
 

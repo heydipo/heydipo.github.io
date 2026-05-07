@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Filosofi Teras"
+author: "A book by Henry Manampiring"
 thumbnail: "/assets/journal/filosofi-teras.webp"
 ---
 
