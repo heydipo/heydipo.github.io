@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Peran"
+author: "Self Reflection"
 thumbnail: "/assets/journal/peran.webp"
 ---
 
@@ -22,4 +23,4 @@ Ataukah peran Anda sebagai seorang mantan pemain sepak bola dengan raihan seguda
 
 Hindari memainkan peran yang tidak dibagikan untuk Anda, kecuali jika Anda memang memerankan orang konyol, maka sudah pasti Anda akan terlihat konyol.
 
-Ingatlah, tidak ada peran yang sama di muka bumi ini. Jika Anda hanya menduplikasi peran orang lain, maka Anda tidak akan eksis, hanya menjadi bayangan panggung. Anda menjadi manusia yang berharga ketika Anda memerankan peran diri sejati Anda.
+Ingatlah, tidak ada peran yang sama di muka bumi ini. Jika Anda hanya menduplikasi peran orang lain, maka Anda tidak akan eksis, hanya menjadi bayangan panggung. Hidupilah peran Anda karena hanya Anda yang bisa menghayatinya. Tidak ada orang lain yang bisa menggantikannya untuk Anda. Anda menjadi manusia yang berharga ketika Anda memerankan peran diri sejati Anda.
