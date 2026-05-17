@@ -1,0 +1,41 @@
+---
+layout: post
+title: "Menghilang, Menemukan Diri Sejati"
+author: "A book by Fahrudin Faiz"
+thumbnail: "/assets/journal/menghilang-menemukan-diri-sejati.webp"
+---
+
+- Hanya dengan terang dalam diri itulah "kunci" yang selama ini kita cari akan dapat kita temukan. (18)
+- "I desire to live in peace and to continue the life I have begun under the motto 'to live well you must live unseen.'" Rene Descartes (20)
+- Menurut Descartes, rumus pertama untuk berfilsafat adalah, "Dubium sapientiae initium (doubt is the origin of wisdom)." "Meragukan adalah sumber kebijaksanaan." Maksudnya, "Ragukanlah dan pertanyakanlah apa pun." (24)
+- Descartes memperkenalkan aliran "rasionalisme". Secara sederhana, definisi rasionalisme adalah, "pengetahuan yang bisa dipercaya, yaitu pengetahuan yang bersumber pada rasio atau akal". (30)
+- Analisislah segala hal di dalam hidup Anda. Ragukanlah dan ujilah semuanya. Dari situlah kunci Anda untuk menemukan kebenaran. Jangan hanya ikut-ikutan kebenaran orang lain. (33)
+- Untuk apa manusia merasa perlu menemukan kebenaran? Agar dia menjadi sempurna. Ketika pikiran kita semakin berkembang, kita menjadi lebih sempurna dari sebelumnya. (38)
+- Agar kita bisa mengendalikan tubuh kita dengan cara sehat, maka jangan terlalu suka, jangan terlalu benci, jangan terlalu kagum, jangan terlalu semangat, jangan terlalu gembira, dan jangan terlalu sedih. (45)
+- Intuisinya selalu tepat. Mereka bisa membaca apa yang tidak terbaca akal. Menurut tradisi Jawa, orang seperti ini disebut orang yang "waskita". (75)
+- Intuitif itu penting untuk melahirkan kreasi. (96)
+- Intuisilah yang bisa melahirkan gagasan alternatif. Seseorang akan susah berpikir berbeda ketika terus terlibat dalam kerumunan. Inspirasi tidak akan muncul di tengah keramaian. Maka menjauhlah dari keramaian, jika Anda ingin mendapatkan inspirasi agar intuisi Anda hidup. (97)
+- Kalau mandek, merasa sudah selesai, sama saja kita bunuh diri. Sebab, ketika merasa sudah selesai, kita tidak eksis lagi. Jangan berhenti dan jangan puas dengan kondisi saat ini, sebagus apa pun kondisi sekarang. Setiap kali bangun tidur, bayangkanlah ada sosok baru yang lahir, yang berbeda dari kemarin. Berubahlah terus, matanglah dengan cara menciptakan diri terus-menerus. Kunci untuk bisa eksis ada di situ. Jika itu tidak dilakukan, maka kita akan terjatuh ke dalam kerumunan. (99)
+- "Manusia tidak cukup sadar bahwa masa depan berada di tangan mereka sendiri. Tugas mereka pertama-tama adalah menentukan apakah mereka ingin melanjutkan hidup atau tidak. Lalu mereka harus menentukan apakah ingin sekadar hidup ataukah melakukan upaya lebih keras untuk memenuhi peran yang esensial dari alam semesta." Henri Bergson (101)
+- Apa yang terjadi dalam hidup ini tidak sesederhana teori-teori yang dikonsepkan oleh para filsuf. (112)
+- Jangan-jangan bukannya pemikiran Bung Hatta yang masih relevan, tetapi kitalah yang sejak dulu tidak pernah naik kelas? Kita masih memakai nasihat dari puluhan tahun lalu, jangan-jangan sebenarnya kita ini belum menyelesaikan masalah apa pun? (122)
+- Kebebasan adalah cara untuk menjadi lebih baik. Ketidakbebasan menginginkan kita agar selalu berada dalam status quo. Padahal, seharusnya hidup kita terus berkembang ke arah yang lebih dan lebih baik lagi. (128)
+- Berilah makna dalam hidup Anda. Berontaklah pada belenggu-belenggu yang membuat Anda tidak sadar bahwa Anda hidup dalam kung-kungan, cengkeraman kelompok ideologi, gagasan, atau kebenaran yang tidak relevan. Berontaklah, pilihlah yang relevan bagi hidup Anda, beri makna positif pada hidup Anda. maka Anda akan eksis sebagai diri Anda. (132)
+- Jangan mau ditaklukkan oleh dunia yang absurd. Carilah makna hidup. Jika kita menemukan maknanya, syukuri. Jika tidak, tetaplah nikmati hidup ini. Terlebih jika kita menemukan makna yang tidak pernah ditemukan oleh orang lain. (141)
+- Hidup hanya sekali, jangan biarkan isinya hanya kesumpekan kita terlalu memikirkan penilaian orang lain. (143)
+- Kita perlu berbagai sudut pandang atau multiperspektif. Sadarilah bahwa kita juga bisa keliru dan tersesat, karena kita manusia biasa. (160)
+- Jalur untuk menemui Atman: jnana yoga, bhakti yoga, karma yoga, dan raja yoga-jalur ilmu, jalur akhlak, jalur kerja, dan jalur latihan mental. Melalui empat jalan inilah manusia bisa menemukan hakikat hidup bernama Atman. Dan jika seseorang sudah berhasil bertemu Atman, otomatis dia juga bertemu dengan Brahman. Otomatis dia bertemu dengan Tuhan atau ilaihi râji ún. (169)
+- Jika dia sabar menjalaninya sehingga utangnya lunas, dia akan naik kelas. Tetapi, kalau dia tidak bersabar, dia akan mengulangi lagi di kelas yang sama. (171)
+- Hasrat apa yang belum terpenuhi? Itulah yang menjadi sumber keresahan Anda. Semakin rendah hasrat Anda, maka semakin nikmat hidup Anda. Semakin Anda tidak menginginkan macam-macam, semakin santai hidup Anda. (199)
+- Fokuslah dengan apa yang ada sekarang. Jangan terlena dengan masa lalu atau terlalu mengangankan masa depan yang belum jelas. (222)
+- Harus diawali dengan proses pemurnian diri. Prosesnya harus didahului dengan mengidentifikasi hasrat-hasrat kita; jangan-jangan masih ada iri, ambisi, dan nafsu-nafsu tidak penting yang mengotori hati dan pikiran. Perbaiki dulu semua itu. (239)
+- Pendekar paling hebat itu adalah pendekar yang bisa membuat dirinya tidak memiliki musuh, bukan pendekar yang selalu memenangkan pertempuran. Jika Anda berhasil untuk tidak memiliki musuh, semuanya teman dan harmonis, maka Anda adalah pendekar yang luar biasa. (242)
+- Diam itu lebih dahsyat daripada banyak tingkah. (244)
+- Tuhan yang kita kenal itu sebenarnya bukan Tuhan itu sendiri, tetapi konsep kita tentang Tuhan. (267)
+- Zen tidak bisa diceramahkan karena beyond words, kata-kata tidak bisa menjelaskannya. Dinikmati saja indahnya. Enak atau tidak enak pengalaman itu hanya bisa dirasakan. Jika dijelaskan, biasanya akan mereduksi kesejatiannya. (269)
+- Puncaknya Zen adalah kasyaf, enlightment, atau tajalli. Bebas dari penjara pikiran, rasa, dan egoisme. Pengalaman yang jernih, yang autentik. (270)
+- Sempatkanlah waktu untuk memahami diri kita sendiri. Jangan sampai kita kehilangan diri kita sendiri. (274)
+- Yang paling penting adalah nikmati hidup kita sekarang, di sini, dan saat ini. (285)
+- Ketika kita mengalami masalah atau keruwetan apa pun dalam hidup kita, ingatlah bahwa itu adalah bayangan kita sendiri. Kita sendiri yang membuatnya menjadi gelap, bukan orang lain. (295)
+- Rata-rata para Samurai itu pendiam. Tidak banyak omong. Tetapi, sekali mereka berbicara, mereka konsisten dengan ucapannya. Jika sudah bersumpah setia, dia akan mati-matian menjaganya. Kalau dia sudah mengatakan berjuang, dia benar-benar berjuang, bahkan sampai mati. Seperti itulah seseorang yang punya integritas. (304)
+- Hidup itu bukan tentang pencarian diri, tetapi hidup adalah tentang menciptakan diri kita sendiri. (315)
