@@ -2,7 +2,7 @@
 layout: post
 title: "Perancis"
 author: "Story of The Day"
-thumbnail: "/assets/journal/Perancis.webp"
+thumbnail: "/assets/journal/perancis.webp"
 ---
 
 Siang yang panas, di suatu sudut di Jawa.
