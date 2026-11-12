@@ -617,7 +617,7 @@
         <button type="button" class="format-btn" data-prefix="*" title="Italic"><i>I</i></button>
         <button type="button" class="format-btn" data-prefix="__" title="Underline"><u>U</u></button>
         <button type="button" class="format-btn" data-prefix="~~" title="Strikethrough"><s>S</s></button>
-        <button type="button" class="format-btn" data-prefix="`" title="Code"><code>&lt;&gt;</code></button>
+        <button type="button" class="format-btn" data-prefix="code" title="Code"><code>&lt;&gt;</code></button>
       </div>
       <textarea class="composer-textarea" id="composerText" placeholder="Transmit a signal…" maxlength="500"
         rows="4"></textarea>
@@ -797,7 +797,7 @@
     document.querySelectorAll('#composer .format-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
-        const prefix = btn.dataset.prefix;
+        const prefix = btn.dataset.prefix === 'code' ? '`' : btn.dataset.prefix;
         applyFormat(composerText, prefix);
       });
     });
@@ -938,7 +938,7 @@
             <button type="button" class="format-btn edit-format-btn" data-prefix="*" title="Italic"><i>I</i></button>
             <button type="button" class="format-btn edit-format-btn" data-prefix="__" title="Underline"><u>U</u></button>
             <button type="button" class="format-btn edit-format-btn" data-prefix="~~" title="Strikethrough"><s>S</s></button>
-            <button type="button" class="format-btn edit-format-btn" data-prefix="`" title="Code"><code>&lt;&gt;</code></button>
+            <button type="button" class="format-btn edit-format-btn" data-prefix="code" title="Code"><code>&lt;&gt;</code></button>
           </div>
           <textarea class="edit-textarea">${escapeHtml(post.content)}</textarea>
           <div class="edit-actions">
@@ -977,7 +977,7 @@
       card.querySelectorAll('.edit-format-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
           e.preventDefault();
-          const prefix = btn.dataset.prefix;
+          const prefix = btn.dataset.prefix === 'code' ? '`' : btn.dataset.prefix;
           applyFormat(editTextarea, prefix);
         });
       });
