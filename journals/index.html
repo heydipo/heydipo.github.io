@@ -561,6 +561,7 @@
     }
 
     @keyframes shimmer {
+
       0%,
       100% {
         opacity: 0.5;
@@ -607,7 +608,8 @@
     <!-- Page header -->
     <div class="page-header">
       <h1>Journals</h1>
-      <p>Signals from the in-between.</p>
+      <p>A space for ideas, observations, and personal thoughts.</p>
+
     </div>
 
     <!-- Composer (admin only) -->
@@ -623,7 +625,7 @@
         rows="4"></textarea>
       <div class="composer-footer">
         <span class="char-count" id="charCount">0 / 500</span>
-        <button class="publish-btn" id="publishBtn" disabled>Transmit</button>
+        <button class="publish-btn" id="publishBtn" disabled>Publish</button>
       </div>
       <div class="feedback" id="composerFeedback"></div>
     </div>
@@ -853,7 +855,7 @@
       if (!content || content.length > MAX_CHARS) return;
 
       publishBtn.disabled = true;
-      publishBtn.textContent = 'Transmitting…';
+      publishBtn.textContent = 'Publishing…';
       clearComposerFeedback();
 
       const { error } = await supabase.from('journals').insert({
@@ -861,7 +863,7 @@
         author_id: currentUserId,
       });
 
-      publishBtn.textContent = 'Transmit';
+      publishBtn.textContent = 'Publish';
       publishBtn.disabled = false;
 
       if (error) {
@@ -918,14 +920,11 @@
       card.className = 'post-card';
       card.dataset.id = post.id;
 
-      const edited = post.updated_at && post.updated_at !== post.created_at
-        ? ' · revised' : '';
-
       card.innerHTML = `
         <div class="post-content">${renderFormattedContent(post.content)}</div>
 
         <div class="post-footer">
-          <div class="post-meta">${formatDate(post.created_at)}${edited}</div>
+          <div class="post-meta">${formatDate(post.created_at)}</div>
           <div class="post-admin-controls ${isAdmin ? 'visible' : ''}">
             <button class="admin-action-btn edit-btn">Rewrite</button>
             <button class="admin-action-btn danger delete-btn">Erase</button>
@@ -942,8 +941,8 @@
           </div>
           <textarea class="edit-textarea">${escapeHtml(post.content)}</textarea>
           <div class="edit-actions">
-            <button class="save-btn">Seal it</button>
-            <button class="cancel-btn">Nevermind</button>
+            <button class="save-btn">Save</button>
+            <button class="cancel-btn">Cancel</button>
           </div>
         </div>
 
@@ -1001,7 +1000,7 @@
         if (!newContent || newContent.length > MAX_CHARS) return;
 
         saveBtn.disabled = true;
-        saveBtn.textContent = 'Sealing…';
+        saveBtn.textContent = 'Saving…';
 
         const { data, error } = await supabase
           .from('journals')
@@ -1011,10 +1010,10 @@
           .single();
 
         saveBtn.disabled = false;
-        saveBtn.textContent = 'Seal it';
+        saveBtn.textContent = 'Save';
 
         if (error) {
-          alert('The rewrite failed. Try again.');
+          alert('Failed to save. Please try again.');
           return;
         }
 
@@ -1022,7 +1021,7 @@
         post.content = data.content;
         post.updated_at = data.updated_at;
         contentEl.innerHTML = renderFormattedContent(data.content);
-        metaEl.textContent = formatDate(data.created_at) + ' · revised';
+        metaEl.textContent = formatDate(data.created_at);
         editArea.classList.remove('visible');
         controls.style.display = '';
       });
