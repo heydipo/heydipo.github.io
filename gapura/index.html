@@ -384,12 +384,63 @@
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim());
     }
 
+    function getAndIncrementAttemptCount() {
+      try {
+        const current = parseInt(sessionStorage.getItem('gapura_attempts') || '0', 10);
+        const next = current + 1;
+        sessionStorage.setItem('gapura_attempts', next.toString());
+        return next;
+      } catch {
+        return 1;
+      }
+    }
+
+    function getDeviceInfo() {
+      const ua = navigator.userAgent || '';
+      const isTouch = navigator.maxTouchPoints > 1;
+
+      if (/iPad/.test(ua) || (/Macintosh/.test(ua) && isTouch)) {
+        return 'Tablet (iPadOS)';
+      }
+      if (/Android/.test(ua) && !/Mobile/.test(ua)) {
+        return 'Tablet (Android)';
+      }
+      if (/iPhone|iPod/.test(ua)) {
+        return 'Mobile (iOS)';
+      }
+      if (/Android/.test(ua)) {
+        return 'Mobile (Android)';
+      }
+      if (/Mobile/.test(ua)) {
+        return 'Mobile (Other)';
+      }
+      if (/Macintosh|Mac OS X/.test(ua)) {
+        return 'Desktop (macOS)';
+      }
+      if (/Windows NT|Windows/.test(ua)) {
+        return 'Desktop (Windows)';
+      }
+      if (/CrOS/.test(ua)) {
+        return 'Desktop (ChromeOS)';
+      }
+      if (/Linux/.test(ua)) {
+        return 'Desktop (Linux)';
+      }
+
+      return 'Unknown';
+    }
+
     async function logFailedAttempt(rawInput, statusReason) {
       try {
+        const attemptCount = getAndIncrementAttemptCount();
+        const device = getDeviceInfo();
+
         const { error } = await supabase.from('login_attempts').insert({
           entered_input: rawInput.slice(0, 255),
           status: statusReason,
           user_agent: navigator.userAgent,
+          attempt_count: attemptCount,
+          device: device,
         });
         if (error) {
           console.error('Failed to log attempt:', error);
