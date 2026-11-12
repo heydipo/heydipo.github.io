@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Login — heyDipo</title>
+  <title>The Cosmic Gateway — heyDipo</title>
   <link rel="icon" type="x-icon" href="/assets/general/favicon.ico" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -268,25 +268,17 @@
 
     <!-- State: login form (default) -->
     <div data-state="form" class="active">
-      <h1 class="card-title">Admin Login</h1>
-      <p class="card-desc">Enter your email to receive a secure login link.</p>
+      <h1 class="card-title">The Cosmic Gateway</h1>
 
       <form id="loginForm" novalidate>
         <div class="input-group">
-          <label for="emailInput">Email address</label>
-          <input
-            type="email"
-            id="emailInput"
-            name="email"
-            placeholder="you@example.com"
-            autocomplete="email"
-            inputmode="email"
-            required
-          />
-          <span class="input-error" id="emailError">Please enter a valid email address.</span>
+          <label for="emailInput">Your Spellbook</label>
+          <input type="email" id="emailInput" name="email" placeholder="Reveal your identity..." autocomplete="email"
+            inputmode="email" required />
+          <span class="input-error" id="emailError">These magic words aren't recognized.</span>
         </div>
 
-        <button type="submit" class="primary-btn" id="submitBtn">Send Login Link</button>
+        <button type="submit" class="primary-btn" id="submitBtn">Enter Universe</button>
       </form>
 
       <div class="form-feedback" id="formFeedback"></div>
@@ -295,37 +287,37 @@
     <!-- State: link sent -->
     <div data-state="sent">
       <div class="auth-state">
-        <span class="auth-icon">📬</span>
-        <h2>Check your inbox</h2>
-        <p>A login link has been sent to your email. Click it to access the admin panel.</p>
-        <p style="font-size: 0.8rem; opacity: 0.7;">The link expires in 1 hour. Check your spam folder if you don't see it.</p>
+        <span class="auth-icon">🛸</span>
+        <h2>Your portal is on its way</h2>
+        <p style="font-size: 0.8rem; opacity: 0.7;">The rift closes in 3600 seconds.</p>
       </div>
     </div>
 
     <!-- State: invalid / expired link -->
     <div data-state="invalid">
       <div class="form-feedback error" style="display:block; margin-top: 0;">
-        ⚠️ This login link has expired or is invalid. Please request a new one.
+        ⚠️ This realm is no longer stable. Open a new one.
       </div>
-      <button class="ghost-btn" id="retryFromInvalid">Try again</button>
+      <button class="ghost-btn" id="retryFromInvalid">Reopen the gateway</button>
     </div>
 
     <!-- State: already authenticated -->
     <div data-state="authenticated">
       <div class="auth-state">
-        <span class="auth-icon">✅</span>
-        <h2>You're logged in</h2>
+        <span class="auth-icon">🌻🌙</span>
+        <h2>You've entered the realm.</h2>
         <p id="authUserEmail" style="color: var(--sky); font-size: 0.9rem; margin-bottom: 1rem;"></p>
         <div class="btn-group">
-          <a href="/journals/" class="primary-btn" style="display:block; text-align:center; text-decoration:none; padding: 13px 20px;">Go to Journals</a>
-          <button class="ghost-btn" id="logoutBtn">Log out</button>
+          <a href="/journals/" class="primary-btn"
+            style="display:block; text-align:center; text-decoration:none; padding: 13px 20px;">Go to Journals</a>
+          <button class="ghost-btn" id="logoutBtn">Leave this realm</button>
         </div>
       </div>
     </div>
 
   </div>
 
-  <p class="footer-note">Private access only.</p>
+  <p class="footer-note">Reserved for the Chosen.</p>
 
   <script type="module">
     import { supabase } from '/assets/js/supabase-client.js';
@@ -411,7 +403,7 @@
 
       // Disable while in-flight
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Sending…';
+      submitBtn.textContent = 'Entering…';
 
       const { error } = await supabase.auth.signInWithOtp({
         email,
@@ -422,12 +414,12 @@
       });
 
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Send Login Link';
+      submitBtn.textContent = 'Enter Universe';
 
       if (error) {
         // Supabase returns an error if the user doesn't exist (sign-ups disabled)
         // Show generic message to avoid revealing whether email is registered
-        setFeedback('error', 'Unable to send login link. Please check your email and try again.');
+        setFeedback('error', 'Your identity does not belong to this realm.');
         return;
       }
 
@@ -455,4 +447,3 @@
 </body>
 
 </html>
-

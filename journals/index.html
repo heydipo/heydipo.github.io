@@ -30,7 +30,9 @@
       padding: 0;
     }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       font-family: "Inter", sans-serif;
@@ -40,31 +42,26 @@
       min-height: 100vh;
     }
 
-    a { color: inherit; text-decoration: none; }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
     /* ── Page layout ── */
     .page-wrap {
       max-width: 680px;
       margin: 0 auto;
-      padding: 3rem 1.5rem 5rem;
+      padding: 2.5rem 1.5rem 5rem;
     }
 
-    /* ── Top bar ── */
+    /* ── Top bar: admin bar only ── */
     .top-bar {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      margin-bottom: 2.5rem;
+      justify-content: flex-end;
+      min-height: 2rem;
+      margin-bottom: 1.5rem;
     }
-
-    .back-link {
-      font-size: 0.9rem;
-      color: var(--muted);
-      transition: var(--transition);
-    }
-
-    .back-link:hover { color: var(--sky); }
-    .back-link::before { content: "← "; }
 
     /* ── Admin bar ── */
     #adminBar {
@@ -73,7 +70,9 @@
       gap: 0.75rem;
     }
 
-    #adminBar.visible { display: flex; }
+    #adminBar.visible {
+      display: flex;
+    }
 
     .admin-label {
       font-size: 0.8rem;
@@ -114,6 +113,44 @@
       font-size: 0.95rem;
     }
 
+    /* ── Formatting toolbar ── */
+    .format-toolbar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .format-btn {
+      background: rgba(6, 22, 44, 0.5);
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      cursor: pointer;
+      font-family: inherit;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 28px;
+      line-height: 1.4;
+    }
+
+    .format-btn:hover {
+      border-color: var(--sky);
+      color: var(--sky);
+      background: rgba(70, 180, 255, 0.12);
+    }
+
+    .format-btn code {
+      font-size: 0.75rem;
+      background: none;
+      border: none;
+      color: inherit;
+      padding: 0;
+    }
+
     /* ── Composer ── */
     #composer {
       display: none;
@@ -126,7 +163,9 @@
       box-shadow: var(--shadow);
     }
 
-    #composer.visible { display: block; }
+    #composer.visible {
+      display: block;
+    }
 
     .composer-textarea {
       width: 100%;
@@ -163,7 +202,9 @@
       flex-shrink: 0;
     }
 
-    .char-count.over { color: #ff9999; }
+    .char-count.over {
+      color: #ff9999;
+    }
 
     .publish-btn {
       border: none;
@@ -235,28 +276,70 @@
       border-color: rgba(138, 211, 255, 0.5);
     }
 
-    .post-meta {
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-bottom: 0.6rem;
-    }
-
     .post-content {
       font-size: 0.95rem;
       line-height: 1.7;
       color: var(--text);
       white-space: pre-wrap;
       word-break: break-word;
+      margin-bottom: 0.85rem;
+    }
+
+    .post-content strong {
+      color: var(--sky);
+      font-weight: 600;
+    }
+
+    .post-content em {
+      color: inherit;
+      font-style: italic;
+    }
+
+    .post-content u {
+      text-decoration: underline;
+      text-decoration-color: var(--sky);
+      text-underline-offset: 3px;
+    }
+
+    .post-content s {
+      color: var(--muted);
+      text-decoration: line-through;
+    }
+
+    .post-content code {
+      background: rgba(70, 180, 255, 0.12);
+      border: 1px solid var(--glass-border);
+      padding: 0.15rem 0.45rem;
+      border-radius: 6px;
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 0.88rem;
+      color: var(--cyan);
+    }
+
+    .post-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .post-meta {
+      font-size: 0.8rem;
+      color: var(--muted);
+      opacity: 0.85;
     }
 
     /* ── Admin controls per post ── */
     .post-admin-controls {
       display: none;
       gap: 0.5rem;
-      margin-top: 1rem;
+      margin-left: auto;
     }
 
-    .post-admin-controls.visible { display: flex; }
+    .post-admin-controls.visible {
+      display: flex;
+    }
 
     .admin-action-btn {
       background: transparent;
@@ -270,15 +353,25 @@
       transition: var(--transition);
     }
 
-    .admin-action-btn:hover { border-color: var(--sky); color: var(--sky); }
-    .admin-action-btn.danger:hover { border-color: rgba(244,67,54,0.6); color: #ff9999; }
+    .admin-action-btn:hover {
+      border-color: var(--sky);
+      color: var(--sky);
+    }
+
+    .admin-action-btn.danger:hover {
+      border-color: rgba(244, 67, 54, 0.6);
+      color: #ff9999;
+    }
 
     /* ── Inline edit ── */
     .edit-area {
       display: none;
     }
 
-    .edit-area.visible { display: block; margin-top: 0.75rem; }
+    .edit-area.visible {
+      display: block;
+      margin-top: 0.75rem;
+    }
 
     .edit-textarea {
       width: 100%;
@@ -320,8 +413,14 @@
       transition: var(--transition);
     }
 
-    .save-btn:hover:not(:disabled) { opacity: 0.9; }
-    .save-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .save-btn:hover:not(:disabled) {
+      opacity: 0.9;
+    }
+
+    .save-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
 
     .cancel-btn {
       background: transparent;
@@ -335,7 +434,9 @@
       transition: var(--transition);
     }
 
-    .cancel-btn:hover { border-color: var(--muted); }
+    .cancel-btn:hover {
+      border-color: var(--muted);
+    }
 
     /* ── Inline delete confirm ── */
     .delete-confirm {
@@ -348,11 +449,13 @@
       flex-wrap: wrap;
     }
 
-    .delete-confirm.visible { display: flex; }
+    .delete-confirm.visible {
+      display: flex;
+    }
 
     .confirm-delete-btn {
-      background: rgba(244,67,54,0.2);
-      border: 1px solid rgba(244,67,54,0.5);
+      background: rgba(244, 67, 54, 0.2);
+      border: 1px solid rgba(244, 67, 54, 0.5);
       border-radius: 10px;
       padding: 5px 12px;
       font-size: 0.8rem;
@@ -362,7 +465,9 @@
       transition: var(--transition);
     }
 
-    .confirm-delete-btn:hover { background: rgba(244,67,54,0.3); }
+    .confirm-delete-btn:hover {
+      background: rgba(244, 67, 54, 0.3);
+    }
 
     .cancel-delete-btn {
       background: transparent;
@@ -376,7 +481,9 @@
       transition: var(--transition);
     }
 
-    .cancel-delete-btn:hover { border-color: var(--muted); }
+    .cancel-delete-btn:hover {
+      border-color: var(--muted);
+    }
 
     /* ── Special states ── */
     .state-panel {
@@ -386,9 +493,19 @@
       display: none;
     }
 
-    .state-panel.visible { display: block; }
-    .state-panel .icon { font-size: 2rem; margin-bottom: 0.75rem; display: block; }
-    .state-panel p { font-size: 0.95rem; }
+    .state-panel.visible {
+      display: block;
+    }
+
+    .state-panel .icon {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .state-panel p {
+      font-size: 0.95rem;
+    }
 
     .retry-btn {
       display: inline-block;
@@ -404,7 +521,10 @@
       transition: var(--transition);
     }
 
-    .retry-btn:hover { border-color: var(--sky); color: var(--sky); }
+    .retry-btn:hover {
+      border-color: var(--sky);
+      color: var(--sky);
+    }
 
     /* ── Skeleton loader ── */
     .skeleton-list {
@@ -428,24 +548,47 @@
       animation: shimmer 1.5s infinite;
     }
 
-    .skeleton-line.short { width: 30%; }
-    .skeleton-line.medium { width: 70%; }
-    .skeleton-line.long { width: 90%; }
+    .skeleton-line.short {
+      width: 30%;
+    }
+
+    .skeleton-line.medium {
+      width: 70%;
+    }
+
+    .skeleton-line.long {
+      width: 90%;
+    }
 
     @keyframes shimmer {
-      0%, 100% { opacity: 0.5; }
-      50% { opacity: 1; }
+      0%,
+      100% {
+        opacity: 0.5;
+      }
+
+      50% {
+        opacity: 1;
+      }
     }
 
     /* ── Responsive ── */
     @media (max-width: 600px) {
-      .page-wrap { padding: 2rem 1rem 4rem; }
+      .page-wrap {
+        padding: 2rem 1rem 4rem;
+      }
 
-      .composer-footer { flex-direction: column-reverse; align-items: flex-end; }
+      .composer-footer {
+        flex-direction: column-reverse;
+        align-items: flex-end;
+      }
 
-      .publish-btn { width: 100%; }
+      .publish-btn {
+        width: 100%;
+      }
 
-      .post-card { padding: 1rem 1.25rem; }
+      .post-card {
+        padding: 1rem 1.25rem;
+      }
     }
   </style>
 </head>
@@ -453,33 +596,34 @@
 <body>
   <div class="page-wrap">
 
-    <!-- Top bar: back link + admin bar -->
+    <!-- Top bar: admin bar only -->
     <div class="top-bar">
-      <a href="/" class="back-link">heyDipo</a>
       <div id="adminBar">
         <span class="admin-label" id="adminEmail"></span>
-        <button class="logout-btn" id="logoutBtn">Log out</button>
+        <button class="logout-btn" id="logoutBtn">Leave this realm</button>
       </div>
     </div>
 
     <!-- Page header -->
     <div class="page-header">
       <h1>Journals</h1>
-      <p>Short thoughts, observations, and notes.</p>
+      <p>Signals from the in-between.</p>
     </div>
 
     <!-- Composer (admin only) -->
     <div id="composer">
-      <textarea
-        class="composer-textarea"
-        id="composerText"
-        placeholder="Write a thought…"
-        maxlength="500"
-        rows="4"
-      ></textarea>
+      <div class="format-toolbar">
+        <button type="button" class="format-btn" data-prefix="**" title="Bold"><b>B</b></button>
+        <button type="button" class="format-btn" data-prefix="*" title="Italic"><i>I</i></button>
+        <button type="button" class="format-btn" data-prefix="__" title="Underline"><u>U</u></button>
+        <button type="button" class="format-btn" data-prefix="~~" title="Strikethrough"><s>S</s></button>
+        <button type="button" class="format-btn" data-prefix="`" title="Code"><code>&lt;&gt;</code></button>
+      </div>
+      <textarea class="composer-textarea" id="composerText" placeholder="Transmit a signal…" maxlength="500"
+        rows="4"></textarea>
       <div class="composer-footer">
         <span class="char-count" id="charCount">0 / 500</span>
-        <button class="publish-btn" id="publishBtn" disabled>Publish</button>
+        <button class="publish-btn" id="publishBtn" disabled>Transmit</button>
       </div>
       <div class="feedback" id="composerFeedback"></div>
     </div>
@@ -504,22 +648,22 @@
 
     <!-- Error state -->
     <div class="state-panel" id="errorState">
-      <span class="icon">⚠️</span>
-      <p id="errorMsg">Failed to load posts.</p>
-      <button class="retry-btn" id="retryBtn">Try again</button>
+      <span class="icon">🌑</span>
+      <p id="errorMsg">The signal couldn't reach this dimension. Try again.</p>
+      <button class="retry-btn" id="retryBtn">Reconnect</button>
     </div>
 
     <!-- Offline state -->
     <div class="state-panel" id="offlineState">
-      <span class="icon">📡</span>
-      <p>You appear to be offline. Check your connection and try again.</p>
-      <button class="retry-btn" id="offlineRetryBtn">Retry</button>
+      <span class="icon">🛸</span>
+      <p>You've drifted out of range. Restore your connection to the grid.</p>
+      <button class="retry-btn" id="offlineRetryBtn">Reconnect</button>
     </div>
 
     <!-- Empty state -->
     <div class="state-panel" id="emptyState">
-      <span class="icon">✍️</span>
-      <p>Nothing here yet. Check back soon.</p>
+      <span class="icon">🪐</span>
+      <p>The void is quiet. Transmit the first signal.</p>
     </div>
 
     <!-- Timeline -->
@@ -533,21 +677,21 @@
     const MAX_CHARS = 500;
 
     // ── DOM refs ──────────────────────────────────────────────────────────────
-    const adminBar       = document.getElementById('adminBar');
-    const adminEmailEl   = document.getElementById('adminEmail');
-    const logoutBtn      = document.getElementById('logoutBtn');
-    const composer       = document.getElementById('composer');
-    const composerText   = document.getElementById('composerText');
-    const charCount      = document.getElementById('charCount');
-    const publishBtn     = document.getElementById('publishBtn');
-    const composerFb     = document.getElementById('composerFeedback');
-    const timeline       = document.getElementById('timeline');
-    const loadingState   = document.getElementById('loadingState');
-    const errorState     = document.getElementById('errorState');
-    const errorMsg       = document.getElementById('errorMsg');
-    const offlineState   = document.getElementById('offlineState');
-    const emptyState     = document.getElementById('emptyState');
-    const retryBtn       = document.getElementById('retryBtn');
+    const adminBar = document.getElementById('adminBar');
+    const adminEmailEl = document.getElementById('adminEmail');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const composer = document.getElementById('composer');
+    const composerText = document.getElementById('composerText');
+    const charCount = document.getElementById('charCount');
+    const publishBtn = document.getElementById('publishBtn');
+    const composerFb = document.getElementById('composerFeedback');
+    const timeline = document.getElementById('timeline');
+    const loadingState = document.getElementById('loadingState');
+    const errorState = document.getElementById('errorState');
+    const errorMsg = document.getElementById('errorMsg');
+    const offlineState = document.getElementById('offlineState');
+    const emptyState = document.getElementById('emptyState');
+    const retryBtn = document.getElementById('retryBtn');
     const offlineRetryBtn = document.getElementById('offlineRetryBtn');
 
     // ── State ─────────────────────────────────────────────────────────────────
@@ -575,7 +719,7 @@
     }
 
     function showPanel(id) {
-      ['loadingState','errorState','offlineState','emptyState'].forEach(pid => {
+      ['loadingState', 'errorState', 'offlineState', 'emptyState'].forEach(pid => {
         const el = document.getElementById(pid);
         if (pid === 'loadingState') {
           el.style.display = pid === id ? 'flex' : 'none';
@@ -588,7 +732,7 @@
     }
 
     function hideAllPanels() {
-      ['loadingState','errorState','offlineState','emptyState'].forEach(pid => {
+      ['loadingState', 'errorState', 'offlineState', 'emptyState'].forEach(pid => {
         const el = document.getElementById(pid);
         if (pid === 'loadingState') el.style.display = 'none';
         else el.classList.remove('visible');
@@ -597,6 +741,66 @@
       timeline.style.flexDirection = 'column';
       timeline.style.gap = '1.25rem';
     }
+
+    // ── XSS & Formatting Parsers ─────────────────────────────────────────────
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function renderFormattedContent(raw) {
+      if (!raw) return '';
+      let text = escapeHtml(raw);
+
+      // Inline code: `code`
+      text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+      // Bold: **bold**
+      text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+
+      // Underline: __underline__ or <u>text</u>
+      text = text.replace(/__(.+?)__/g, '<u>$1</u>');
+      text = text.replace(/&lt;u&gt;(.+?)&lt;\/u&gt;/gi, '<u>$1</u>');
+
+      // Strikethrough: ~~strike~~
+      text = text.replace(/~~(.+?)~~/g, '<s>$1</s>');
+
+      // Italic: *italic*
+      text = text.replace(/(^|[^*])\*([^*]+?)\*([^*]|$)/g, '$1<em>$2</em>$3');
+
+      return text;
+    }
+
+    function applyFormat(textarea, prefix, suffix = prefix) {
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const text = textarea.value;
+      const selected = text.substring(start, end);
+
+      const replacement = prefix + (selected || 'text') + suffix;
+      textarea.setRangeText(replacement, start, end, 'select');
+      textarea.focus();
+
+      if (!selected) {
+        textarea.setSelectionRange(start + prefix.length, start + prefix.length + 4);
+      } else {
+        textarea.setSelectionRange(start, start + replacement.length);
+      }
+      textarea.dispatchEvent(new Event('input'));
+    }
+
+    // Wire composer toolbar
+    document.querySelectorAll('#composer .format-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const prefix = btn.dataset.prefix;
+        applyFormat(composerText, prefix);
+      });
+    });
 
     // ── Auth ──────────────────────────────────────────────────────────────────
     async function initAuth() {
@@ -649,7 +853,7 @@
       if (!content || content.length > MAX_CHARS) return;
 
       publishBtn.disabled = true;
-      publishBtn.textContent = 'Publishing…';
+      publishBtn.textContent = 'Transmitting…';
       clearComposerFeedback();
 
       const { error } = await supabase.from('journals').insert({
@@ -657,18 +861,18 @@
         author_id: currentUserId,
       });
 
-      publishBtn.textContent = 'Publish';
+      publishBtn.textContent = 'Transmit';
       publishBtn.disabled = false;
 
       if (error) {
-        showComposerFeedback('error', 'Failed to publish. Please try again.');
+        showComposerFeedback('error', 'The signal was lost. Try again.');
         return;
       }
 
       composerText.value = '';
       charCount.textContent = '0 / 500';
       charCount.classList.remove('over');
-      showComposerFeedback('success', 'Published!');
+      showComposerFeedback('success', 'Signal sent.');
       setTimeout(clearComposerFeedback, 3000);
       await loadPosts();
     });
@@ -688,7 +892,7 @@
         .order('created_at', { ascending: false });
 
       if (error) {
-        errorMsg.textContent = 'Failed to load posts. Please try again.';
+        errorMsg.textContent = 'The signal couldn\'t reach this dimension. Try again.';
         showPanel('errorState');
         return;
       }
@@ -715,29 +919,38 @@
       card.dataset.id = post.id;
 
       const edited = post.updated_at && post.updated_at !== post.created_at
-        ? ' · edited' : '';
+        ? ' · revised' : '';
 
       card.innerHTML = `
-        <div class="post-meta">${formatDate(post.created_at)}${edited}</div>
-        <div class="post-content">${escapeHtml(post.content)}</div>
+        <div class="post-content">${renderFormattedContent(post.content)}</div>
 
-        <div class="post-admin-controls ${isAdmin ? 'visible' : ''}">
-          <button class="admin-action-btn edit-btn">Edit</button>
-          <button class="admin-action-btn danger delete-btn">Delete</button>
+        <div class="post-footer">
+          <div class="post-meta">${formatDate(post.created_at)}${edited}</div>
+          <div class="post-admin-controls ${isAdmin ? 'visible' : ''}">
+            <button class="admin-action-btn edit-btn">Rewrite</button>
+            <button class="admin-action-btn danger delete-btn">Erase</button>
+          </div>
         </div>
 
         <div class="edit-area">
+          <div class="format-toolbar" style="margin-bottom: 8px;">
+            <button type="button" class="format-btn edit-format-btn" data-prefix="**" title="Bold"><b>B</b></button>
+            <button type="button" class="format-btn edit-format-btn" data-prefix="*" title="Italic"><i>I</i></button>
+            <button type="button" class="format-btn edit-format-btn" data-prefix="__" title="Underline"><u>U</u></button>
+            <button type="button" class="format-btn edit-format-btn" data-prefix="~~" title="Strikethrough"><s>S</s></button>
+            <button type="button" class="format-btn edit-format-btn" data-prefix="`" title="Code"><code>&lt;&gt;</code></button>
+          </div>
           <textarea class="edit-textarea">${escapeHtml(post.content)}</textarea>
           <div class="edit-actions">
-            <button class="save-btn">Save</button>
-            <button class="cancel-btn">Cancel</button>
+            <button class="save-btn">Seal it</button>
+            <button class="cancel-btn">Nevermind</button>
           </div>
         </div>
 
         <div class="delete-confirm">
-          <span>Delete this post?</span>
-          <button class="confirm-delete-btn">Yes, delete</button>
-          <button class="cancel-delete-btn">Cancel</button>
+          <span>Erase this from the record?</span>
+          <button class="confirm-delete-btn">Yes, erase it</button>
+          <button class="cancel-delete-btn">Keep it</button>
         </div>
       `;
 
@@ -746,19 +959,28 @@
     }
 
     function wireCardEvents(card, post) {
-      const contentEl    = card.querySelector('.post-content');
-      const metaEl       = card.querySelector('.post-meta');
-      const controls     = card.querySelector('.post-admin-controls');
-      const editArea     = card.querySelector('.edit-area');
+      const contentEl = card.querySelector('.post-content');
+      const metaEl = card.querySelector('.post-meta');
+      const controls = card.querySelector('.post-admin-controls');
+      const editArea = card.querySelector('.edit-area');
       const editTextarea = card.querySelector('.edit-textarea');
       const deleteConfirm = card.querySelector('.delete-confirm');
 
-      const editBtn          = card.querySelector('.edit-btn');
-      const deleteBtn        = card.querySelector('.delete-btn');
-      const saveBtn          = card.querySelector('.save-btn');
-      const cancelEditBtn    = card.querySelector('.cancel-btn');
+      const editBtn = card.querySelector('.edit-btn');
+      const deleteBtn = card.querySelector('.delete-btn');
+      const saveBtn = card.querySelector('.save-btn');
+      const cancelEditBtn = card.querySelector('.cancel-btn');
       const confirmDeleteBtn = card.querySelector('.confirm-delete-btn');
-      const cancelDeleteBtn  = card.querySelector('.cancel-delete-btn');
+      const cancelDeleteBtn = card.querySelector('.cancel-delete-btn');
+
+      // Wire edit format buttons
+      card.querySelectorAll('.edit-format-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const prefix = btn.dataset.prefix;
+          applyFormat(editTextarea, prefix);
+        });
+      });
 
       // ── Edit ──
       editBtn.addEventListener('click', () => {
@@ -779,7 +1001,7 @@
         if (!newContent || newContent.length > MAX_CHARS) return;
 
         saveBtn.disabled = true;
-        saveBtn.textContent = 'Saving…';
+        saveBtn.textContent = 'Sealing…';
 
         const { data, error } = await supabase
           .from('journals')
@@ -789,18 +1011,18 @@
           .single();
 
         saveBtn.disabled = false;
-        saveBtn.textContent = 'Save';
+        saveBtn.textContent = 'Seal it';
 
         if (error) {
-          alert('Failed to save. Please try again.');
+          alert('The rewrite failed. Try again.');
           return;
         }
 
         // Update in-place
         post.content = data.content;
         post.updated_at = data.updated_at;
-        contentEl.textContent = data.content;
-        metaEl.textContent = formatDate(data.created_at) + ' · edited';
+        contentEl.innerHTML = renderFormattedContent(data.content);
+        metaEl.textContent = formatDate(data.created_at) + ' · revised';
         editArea.classList.remove('visible');
         controls.style.display = '';
       });
@@ -819,7 +1041,7 @@
 
       confirmDeleteBtn.addEventListener('click', async () => {
         confirmDeleteBtn.disabled = true;
-        confirmDeleteBtn.textContent = 'Deleting…';
+        confirmDeleteBtn.textContent = 'Erasing…';
 
         const { error } = await supabase
           .from('journals')
@@ -828,8 +1050,8 @@
 
         if (error) {
           confirmDeleteBtn.disabled = false;
-          confirmDeleteBtn.textContent = 'Yes, delete';
-          alert('Failed to delete. Please try again.');
+          confirmDeleteBtn.textContent = 'Yes, erase it';
+          alert('Erasure failed. Try again.');
           return;
         }
 
@@ -840,16 +1062,6 @@
           showPanel('emptyState');
         }
       });
-    }
-
-    // ── XSS protection ────────────────────────────────────────────────────────
-    function escapeHtml(str) {
-      return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
     }
 
     // ── Retry buttons ─────────────────────────────────────────────────────────
@@ -865,4 +1077,3 @@
 </body>
 
 </html>
-
