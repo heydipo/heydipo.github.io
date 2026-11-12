@@ -273,7 +273,7 @@
       <form id="loginForm" novalidate>
         <div class="input-group">
           <label for="emailInput">Your Spellbook</label>
-          <input type="email" id="emailInput" name="email" placeholder="Reveal your identity..." autocomplete="email"
+          <input type="text" id="emailInput" name="email" placeholder="Reveal your identity..." autocomplete="email"
             inputmode="email" required />
           <span class="input-error" id="emailError">These magic words aren't recognized.</span>
         </div>
@@ -384,14 +384,31 @@
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim());
     }
 
+    async function logFailedAttempt(rawInput, statusReason) {
+      try {
+        const { error } = await supabase.from('login_attempts').insert({
+          entered_input: rawInput.slice(0, 255),
+          status: statusReason,
+          user_agent: navigator.userAgent,
+        });
+        if (error) {
+          console.error('Failed to log attempt:', error);
+        }
+      } catch (err) {
+        console.error('Failed to log attempt:', err);
+      }
+    }
+
     loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       clearFeedback();
 
-      const email = emailInput.value.trim();
+      const rawInput = emailInput.value.trim();
+      if (!rawInput) return;
 
       // Frontend format validation
-      if (!validateEmail(email)) {
+      if (!validateEmail(rawInput)) {
+        await logFailedAttempt(rawInput, 'invalid_email_format');
         emailInput.classList.add('invalid');
         emailError.classList.add('visible');
         emailInput.focus();
@@ -406,7 +423,7 @@
       submitBtn.textContent = 'Entering…';
 
       const { error } = await supabase.auth.signInWithOtp({
-        email,
+        email: rawInput,
         options: {
           emailRedirectTo: 'https://heydipo.github.io/journals/',
           shouldCreateUser: false,
@@ -417,6 +434,7 @@
       submitBtn.textContent = 'Enter Universe';
 
       if (error) {
+        await logFailedAttempt(rawInput, error.message);
         // Supabase returns an error if the user doesn't exist (sign-ups disabled)
         // Show generic message to avoid revealing whether email is registered
         setFeedback('error', 'Your identity does not belong to this realm.');
