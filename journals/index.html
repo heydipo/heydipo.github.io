@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Journals — heyDipo</title>
+  <link rel="icon" type="x-icon" href="/assets/general/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #06162c;
+      --deep: #0b2346;
+      --azure: #46b4ff;
+      --sky: #8ad3ff;
+      --cyan: #b5f1ff;
+      --glass-bg: rgba(135, 206, 235, 0.12);
+      --glass-border: rgba(173, 216, 230, 0.3);
+      --shadow: 0 8px 32px rgba(0, 40, 80, 0.4);
+      --text: #e8f6ff;
+      --muted: #b8d6ea;
+      --transition: 0.3s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Inter", sans-serif;
+      background: radial-gradient(circle at top, #173c6b 0%, #07192f 45%, #040b18 100%);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Page layout ── */
+    .page-wrap {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem;
+    }
+
+    /* ── Top bar ── */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+    }
+
+    .back-link {
+      font-size: 0.9rem;
+      color: var(--muted);
+      transition: var(--transition);
+    }
+
+    .back-link:hover { color: var(--sky); }
+    .back-link::before { content: "← "; }
+
+    /* ── Admin bar ── */
+    #adminBar {
+      display: none;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    #adminBar.visible { display: flex; }
+
+    .admin-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .logout-btn {
+      background: transparent;
+      border: 1px solid rgba(138, 211, 255, 0.35);
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-family: inherit;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .logout-btn:hover {
+      border-color: var(--sky);
+      color: var(--sky);
+    }
+
+    /* ── Page header ── */
+    .page-header {
+      margin-bottom: 2rem;
+    }
+
+    .page-header h1 {
+      font-size: clamp(1.8rem, 5vw, 2.4rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.4rem;
+    }
+
+    .page-header p {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    /* ── Composer ── */
+    #composer {
+      display: none;
+      background: var(--glass-bg);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    #composer.visible { display: block; }
+
+    .composer-textarea {
+      width: 100%;
+      background: rgba(6, 22, 44, 0.5);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      resize: vertical;
+      min-height: 100px;
+      transition: var(--transition);
+    }
+
+    .composer-textarea:focus {
+      outline: none;
+      border-color: var(--sky);
+      box-shadow: 0 0 0 2px rgba(138, 211, 255, 0.2);
+    }
+
+    .composer-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 0.75rem;
+      gap: 1rem;
+    }
+
+    .char-count {
+      font-size: 0.8rem;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    .char-count.over { color: #ff9999; }
+
+    .publish-btn {
+      border: none;
+      border-radius: 20px;
+      padding: 10px 22px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      font-family: inherit;
+      cursor: pointer;
+      transition: var(--transition);
+      background: linear-gradient(120deg, var(--sky), var(--azure));
+      color: #06162c;
+      box-shadow: 0 6px 16px rgba(70, 180, 255, 0.3);
+      flex-shrink: 0;
+    }
+
+    .publish-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 22px rgba(70, 180, 255, 0.45);
+    }
+
+    .publish-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* ── Feedback banners ── */
+    .feedback {
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      margin-top: 0.75rem;
+      display: none;
+      line-height: 1.4;
+    }
+
+    .feedback.success {
+      display: block;
+      background: rgba(76, 175, 80, 0.15);
+      border: 1px solid rgba(76, 175, 80, 0.4);
+      color: #a8e6a1;
+    }
+
+    .feedback.error {
+      display: block;
+      background: rgba(244, 67, 54, 0.15);
+      border: 1px solid rgba(244, 67, 54, 0.4);
+      color: #ff9999;
+    }
+
+    /* ── Timeline ── */
+    #timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* ── Post card ── */
+    .post-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--glass-border);
+      border-radius: 18px;
+      padding: 1.25rem 1.5rem;
+      transition: border-color var(--transition);
+    }
+
+    .post-card:hover {
+      border-color: rgba(138, 211, 255, 0.5);
+    }
+
+    .post-meta {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+    }
+
+    .post-content {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--text);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* ── Admin controls per post ── */
+    .post-admin-controls {
+      display: none;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .post-admin-controls.visible { display: flex; }
+
+    .admin-action-btn {
+      background: transparent;
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 5px 12px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-family: inherit;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .admin-action-btn:hover { border-color: var(--sky); color: var(--sky); }
+    .admin-action-btn.danger:hover { border-color: rgba(244,67,54,0.6); color: #ff9999; }
+
+    /* ── Inline edit ── */
+    .edit-area {
+      display: none;
+    }
+
+    .edit-area.visible { display: block; margin-top: 0.75rem; }
+
+    .edit-textarea {
+      width: 100%;
+      background: rgba(6, 22, 44, 0.5);
+      border: 1px solid var(--glass-border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.93rem;
+      line-height: 1.6;
+      resize: vertical;
+      min-height: 80px;
+      transition: var(--transition);
+    }
+
+    .edit-textarea:focus {
+      outline: none;
+      border-color: var(--sky);
+      box-shadow: 0 0 0 2px rgba(138, 211, 255, 0.2);
+    }
+
+    .edit-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.6rem;
+    }
+
+    .save-btn {
+      background: linear-gradient(120deg, var(--sky), var(--azure));
+      color: #06162c;
+      border: none;
+      border-radius: 12px;
+      padding: 7px 16px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      font-family: inherit;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .save-btn:hover:not(:disabled) { opacity: 0.9; }
+    .save-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .cancel-btn {
+      background: transparent;
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 7px 16px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-family: inherit;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .cancel-btn:hover { border-color: var(--muted); }
+
+    /* ── Inline delete confirm ── */
+    .delete-confirm {
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      flex-wrap: wrap;
+    }
+
+    .delete-confirm.visible { display: flex; }
+
+    .confirm-delete-btn {
+      background: rgba(244,67,54,0.2);
+      border: 1px solid rgba(244,67,54,0.5);
+      border-radius: 10px;
+      padding: 5px 12px;
+      font-size: 0.8rem;
+      color: #ff9999;
+      font-family: inherit;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .confirm-delete-btn:hover { background: rgba(244,67,54,0.3); }
+
+    .cancel-delete-btn {
+      background: transparent;
+      border: 1px solid var(--glass-border);
+      border-radius: 10px;
+      padding: 5px 12px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-family: inherit;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .cancel-delete-btn:hover { border-color: var(--muted); }
+
+    /* ── Special states ── */
+    .state-panel {
+      text-align: center;
+      padding: 3rem 1.5rem;
+      color: var(--muted);
+      display: none;
+    }
+
+    .state-panel.visible { display: block; }
+    .state-panel .icon { font-size: 2rem; margin-bottom: 0.75rem; display: block; }
+    .state-panel p { font-size: 0.95rem; }
+
+    .retry-btn {
+      display: inline-block;
+      margin-top: 1rem;
+      background: transparent;
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 8px 20px;
+      font-size: 0.88rem;
+      color: var(--muted);
+      font-family: inherit;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .retry-btn:hover { border-color: var(--sky); color: var(--sky); }
+
+    /* ── Skeleton loader ── */
+    .skeleton-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .skeleton-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 18px;
+      padding: 1.25rem 1.5rem;
+    }
+
+    .skeleton-line {
+      background: rgba(138, 211, 255, 0.08);
+      border-radius: 6px;
+      height: 12px;
+      margin-bottom: 10px;
+      animation: shimmer 1.5s infinite;
+    }
+
+    .skeleton-line.short { width: 30%; }
+    .skeleton-line.medium { width: 70%; }
+    .skeleton-line.long { width: 90%; }
+
+    @keyframes shimmer {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .page-wrap { padding: 2rem 1rem 4rem; }
+
+      .composer-footer { flex-direction: column-reverse; align-items: flex-end; }
+
+      .publish-btn { width: 100%; }
+
+      .post-card { padding: 1rem 1.25rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-wrap">
+
+    <!-- Top bar: back link + admin bar -->
+    <div class="top-bar">
+      <a href="/" class="back-link">heyDipo</a>
+      <div id="adminBar">
+        <span class="admin-label" id="adminEmail"></span>
+        <button class="logout-btn" id="logoutBtn">Log out</button>
+      </div>
+    </div>
+
+    <!-- Page header -->
+    <div class="page-header">
+      <h1>Journals</h1>
+      <p>Short thoughts, observations, and notes.</p>
+    </div>
+
+    <!-- Composer (admin only) -->
+    <div id="composer">
+      <textarea
+        class="composer-textarea"
+        id="composerText"
+        placeholder="Write a thought…"
+        maxlength="500"
+        rows="4"
+      ></textarea>
+      <div class="composer-footer">
+        <span class="char-count" id="charCount">0 / 500</span>
+        <button class="publish-btn" id="publishBtn" disabled>Publish</button>
+      </div>
+      <div class="feedback" id="composerFeedback"></div>
+    </div>
+
+    <!-- Loading skeletons -->
+    <div id="loadingState" class="skeleton-list">
+      <div class="skeleton-card">
+        <div class="skeleton-line short"></div>
+        <div class="skeleton-line long"></div>
+        <div class="skeleton-line medium"></div>
+      </div>
+      <div class="skeleton-card">
+        <div class="skeleton-line short"></div>
+        <div class="skeleton-line long"></div>
+        <div class="skeleton-line medium"></div>
+      </div>
+      <div class="skeleton-card">
+        <div class="skeleton-line short"></div>
+        <div class="skeleton-line medium"></div>
+      </div>
+    </div>
+
+    <!-- Error state -->
+    <div class="state-panel" id="errorState">
+      <span class="icon">⚠️</span>
+      <p id="errorMsg">Failed to load posts.</p>
+      <button class="retry-btn" id="retryBtn">Try again</button>
+    </div>
+
+    <!-- Offline state -->
+    <div class="state-panel" id="offlineState">
+      <span class="icon">📡</span>
+      <p>You appear to be offline. Check your connection and try again.</p>
+      <button class="retry-btn" id="offlineRetryBtn">Retry</button>
+    </div>
+
+    <!-- Empty state -->
+    <div class="state-panel" id="emptyState">
+      <span class="icon">✍️</span>
+      <p>Nothing here yet. Check back soon.</p>
+    </div>
+
+    <!-- Timeline -->
+    <div id="timeline"></div>
+
+  </div>
+
+  <script type="module">
+    import { supabase } from '/assets/js/supabase-client.js';
+
+    const MAX_CHARS = 500;
+
+    // ── DOM refs ──────────────────────────────────────────────────────────────
+    const adminBar       = document.getElementById('adminBar');
+    const adminEmailEl   = document.getElementById('adminEmail');
+    const logoutBtn      = document.getElementById('logoutBtn');
+    const composer       = document.getElementById('composer');
+    const composerText   = document.getElementById('composerText');
+    const charCount      = document.getElementById('charCount');
+    const publishBtn     = document.getElementById('publishBtn');
+    const composerFb     = document.getElementById('composerFeedback');
+    const timeline       = document.getElementById('timeline');
+    const loadingState   = document.getElementById('loadingState');
+    const errorState     = document.getElementById('errorState');
+    const errorMsg       = document.getElementById('errorMsg');
+    const offlineState   = document.getElementById('offlineState');
+    const emptyState     = document.getElementById('emptyState');
+    const retryBtn       = document.getElementById('retryBtn');
+    const offlineRetryBtn = document.getElementById('offlineRetryBtn');
+
+    // ── State ─────────────────────────────────────────────────────────────────
+    let isAdmin = false;
+    let currentUserId = null;
+
+    // ── Utilities ─────────────────────────────────────────────────────────────
+    function formatDate(iso) {
+      const d = new Date(iso);
+      return d.toLocaleDateString('en-US', {
+        year: 'numeric', month: 'short', day: 'numeric',
+      }) + ' · ' + d.toLocaleTimeString('en-US', {
+        hour: '2-digit', minute: '2-digit',
+      });
+    }
+
+    function showComposerFeedback(type, msg) {
+      composerFb.className = 'feedback ' + type;
+      composerFb.textContent = msg;
+    }
+
+    function clearComposerFeedback() {
+      composerFb.className = 'feedback';
+      composerFb.textContent = '';
+    }
+
+    function showPanel(id) {
+      ['loadingState','errorState','offlineState','emptyState'].forEach(pid => {
+        const el = document.getElementById(pid);
+        if (pid === 'loadingState') {
+          el.style.display = pid === id ? 'flex' : 'none';
+          el.style.flexDirection = 'column';
+        } else {
+          el.classList.toggle('visible', pid === id);
+        }
+      });
+      timeline.style.display = id === null ? 'flex' : 'none';
+    }
+
+    function hideAllPanels() {
+      ['loadingState','errorState','offlineState','emptyState'].forEach(pid => {
+        const el = document.getElementById(pid);
+        if (pid === 'loadingState') el.style.display = 'none';
+        else el.classList.remove('visible');
+      });
+      timeline.style.display = 'flex';
+      timeline.style.flexDirection = 'column';
+      timeline.style.gap = '1.25rem';
+    }
+
+    // ── Auth ──────────────────────────────────────────────────────────────────
+    async function initAuth() {
+      const { data: { session } } = await supabase.auth.getSession();
+      applyAuthState(session);
+    }
+
+    function applyAuthState(session) {
+      if (session) {
+        isAdmin = true;
+        currentUserId = session.user.id;
+        adminBar.classList.add('visible');
+        adminEmailEl.textContent = session.user.email;
+        composer.classList.add('visible');
+        // Show admin controls on already-rendered posts
+        document.querySelectorAll('.post-admin-controls').forEach(el => {
+          el.classList.add('visible');
+        });
+      } else {
+        isAdmin = false;
+        currentUserId = null;
+        adminBar.classList.remove('visible');
+        composer.classList.remove('visible');
+        adminEmailEl.textContent = '';
+        document.querySelectorAll('.post-admin-controls').forEach(el => {
+          el.classList.remove('visible');
+        });
+      }
+    }
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      applyAuthState(session);
+    });
+
+    logoutBtn.addEventListener('click', async () => {
+      await supabase.auth.signOut();
+    });
+
+    // ── Composer ──────────────────────────────────────────────────────────────
+    composerText.addEventListener('input', () => {
+      const len = composerText.value.length;
+      charCount.textContent = `${len} / ${MAX_CHARS}`;
+      charCount.classList.toggle('over', len >= MAX_CHARS);
+      publishBtn.disabled = len === 0 || len > MAX_CHARS;
+      clearComposerFeedback();
+    });
+
+    publishBtn.addEventListener('click', async () => {
+      const content = composerText.value.trim();
+      if (!content || content.length > MAX_CHARS) return;
+
+      publishBtn.disabled = true;
+      publishBtn.textContent = 'Publishing…';
+      clearComposerFeedback();
+
+      const { error } = await supabase.from('posts').insert({
+        content,
+        author_id: currentUserId,
+      });
+
+      publishBtn.textContent = 'Publish';
+      publishBtn.disabled = false;
+
+      if (error) {
+        showComposerFeedback('error', 'Failed to publish. Please try again.');
+        return;
+      }
+
+      composerText.value = '';
+      charCount.textContent = '0 / 500';
+      charCount.classList.remove('over');
+      showComposerFeedback('success', 'Published!');
+      setTimeout(clearComposerFeedback, 3000);
+      await loadPosts();
+    });
+
+    // ── Fetch & render posts ──────────────────────────────────────────────────
+    async function loadPosts() {
+      if (!navigator.onLine) {
+        showPanel('offlineState');
+        return;
+      }
+
+      showPanel('loadingState');
+
+      const { data: posts, error } = await supabase
+        .from('posts')
+        .select('id, content, created_at, updated_at')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        errorMsg.textContent = 'Failed to load posts. Please try again.';
+        showPanel('errorState');
+        return;
+      }
+
+      if (!posts || posts.length === 0) {
+        showPanel('emptyState');
+        return;
+      }
+
+      hideAllPanels();
+      renderPosts(posts);
+    }
+
+    function renderPosts(posts) {
+      timeline.innerHTML = '';
+      posts.forEach(post => {
+        timeline.appendChild(createPostCard(post));
+      });
+    }
+
+    function createPostCard(post) {
+      const card = document.createElement('article');
+      card.className = 'post-card';
+      card.dataset.id = post.id;
+
+      const edited = post.updated_at && post.updated_at !== post.created_at
+        ? ' · edited' : '';
+
+      card.innerHTML = `
+        <div class="post-meta">${formatDate(post.created_at)}${edited}</div>
+        <div class="post-content">${escapeHtml(post.content)}</div>
+
+        <div class="post-admin-controls ${isAdmin ? 'visible' : ''}">
+          <button class="admin-action-btn edit-btn">Edit</button>
+          <button class="admin-action-btn danger delete-btn">Delete</button>
+        </div>
+
+        <div class="edit-area">
+          <textarea class="edit-textarea">${escapeHtml(post.content)}</textarea>
+          <div class="edit-actions">
+            <button class="save-btn">Save</button>
+            <button class="cancel-btn">Cancel</button>
+          </div>
+        </div>
+
+        <div class="delete-confirm">
+          <span>Delete this post?</span>
+          <button class="confirm-delete-btn">Yes, delete</button>
+          <button class="cancel-delete-btn">Cancel</button>
+        </div>
+      `;
+
+      wireCardEvents(card, post);
+      return card;
+    }
+
+    function wireCardEvents(card, post) {
+      const contentEl    = card.querySelector('.post-content');
+      const metaEl       = card.querySelector('.post-meta');
+      const controls     = card.querySelector('.post-admin-controls');
+      const editArea     = card.querySelector('.edit-area');
+      const editTextarea = card.querySelector('.edit-textarea');
+      const deleteConfirm = card.querySelector('.delete-confirm');
+
+      const editBtn          = card.querySelector('.edit-btn');
+      const deleteBtn        = card.querySelector('.delete-btn');
+      const saveBtn          = card.querySelector('.save-btn');
+      const cancelEditBtn    = card.querySelector('.cancel-btn');
+      const confirmDeleteBtn = card.querySelector('.confirm-delete-btn');
+      const cancelDeleteBtn  = card.querySelector('.cancel-delete-btn');
+
+      // ── Edit ──
+      editBtn.addEventListener('click', () => {
+        editTextarea.value = post.content;
+        editArea.classList.add('visible');
+        deleteConfirm.classList.remove('visible');
+        controls.style.display = 'none';
+        editTextarea.focus();
+      });
+
+      cancelEditBtn.addEventListener('click', () => {
+        editArea.classList.remove('visible');
+        controls.style.display = '';
+      });
+
+      saveBtn.addEventListener('click', async () => {
+        const newContent = editTextarea.value.trim();
+        if (!newContent || newContent.length > MAX_CHARS) return;
+
+        saveBtn.disabled = true;
+        saveBtn.textContent = 'Saving…';
+
+        const { data, error } = await supabase
+          .from('posts')
+          .update({ content: newContent, updated_at: new Date().toISOString() })
+          .eq('id', post.id)
+          .select()
+          .single();
+
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Save';
+
+        if (error) {
+          alert('Failed to save. Please try again.');
+          return;
+        }
+
+        // Update in-place
+        post.content = data.content;
+        post.updated_at = data.updated_at;
+        contentEl.textContent = data.content;
+        metaEl.textContent = formatDate(data.created_at) + ' · edited';
+        editArea.classList.remove('visible');
+        controls.style.display = '';
+      });
+
+      // ── Delete ──
+      deleteBtn.addEventListener('click', () => {
+        deleteConfirm.classList.add('visible');
+        editArea.classList.remove('visible');
+        controls.style.display = 'none';
+      });
+
+      cancelDeleteBtn.addEventListener('click', () => {
+        deleteConfirm.classList.remove('visible');
+        controls.style.display = '';
+      });
+
+      confirmDeleteBtn.addEventListener('click', async () => {
+        confirmDeleteBtn.disabled = true;
+        confirmDeleteBtn.textContent = 'Deleting…';
+
+        const { error } = await supabase
+          .from('posts')
+          .delete()
+          .eq('id', post.id);
+
+        if (error) {
+          confirmDeleteBtn.disabled = false;
+          confirmDeleteBtn.textContent = 'Yes, delete';
+          alert('Failed to delete. Please try again.');
+          return;
+        }
+
+        card.remove();
+
+        // Show empty state if no posts left
+        if (timeline.children.length === 0) {
+          showPanel('emptyState');
+        }
+      });
+    }
+
+    // ── XSS protection ────────────────────────────────────────────────────────
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    // ── Retry buttons ─────────────────────────────────────────────────────────
+    retryBtn.addEventListener('click', loadPosts);
+    offlineRetryBtn.addEventListener('click', loadPosts);
+
+    window.addEventListener('online', loadPosts);
+
+    // ── Boot ──────────────────────────────────────────────────────────────────
+    await initAuth();
+    await loadPosts();
+  </script>
+</body>
+
+</html>
+

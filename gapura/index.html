@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login — heyDipo</title>
+  <link rel="icon" type="x-icon" href="/assets/general/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #06162c;
+      --deep: #0b2346;
+      --azure: #46b4ff;
+      --sky: #8ad3ff;
+      --cyan: #b5f1ff;
+      --glass-bg: rgba(135, 206, 235, 0.12);
+      --glass-border: rgba(173, 216, 230, 0.3);
+      --shadow: 0 8px 32px rgba(0, 40, 80, 0.4);
+      --text: #e8f6ff;
+      --muted: #b8d6ea;
+      --transition: 0.3s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      background: radial-gradient(circle at top, #173c6b 0%, #07192f 45%, #040b18 100%);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .logo {
+      font-weight: 700;
+      letter-spacing: 1px;
+      font-size: 1.1rem;
+      color: var(--text);
+      display: block;
+      text-align: center;
+      margin-bottom: 2rem;
+      transition: var(--transition);
+    }
+
+    .logo:hover {
+      color: var(--sky);
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 420px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow);
+      border-radius: 24px;
+      padding: 2.5rem 2rem;
+    }
+
+    .card-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .card-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      line-height: 1.5;
+    }
+
+    .input-group {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .input-group label {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .input-group input {
+      background: rgba(6, 22, 44, 0.6);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 1rem;
+      width: 100%;
+      transition: var(--transition);
+    }
+
+    .input-group input:focus {
+      outline: none;
+      border-color: var(--sky);
+      box-shadow: 0 0 0 2px rgba(138, 211, 255, 0.25);
+    }
+
+    .input-group input.invalid {
+      border-color: rgba(244, 67, 54, 0.7);
+      box-shadow: 0 0 0 2px rgba(244, 67, 54, 0.15);
+    }
+
+    .input-error {
+      font-size: 0.8rem;
+      color: #ff9999;
+      display: none;
+    }
+
+    .input-error.visible {
+      display: block;
+    }
+
+    .primary-btn {
+      width: 100%;
+      border: none;
+      border-radius: 20px;
+      padding: 13px 20px;
+      font-weight: 500;
+      font-size: 1rem;
+      font-family: inherit;
+      cursor: pointer;
+      transition: var(--transition);
+      background: linear-gradient(120deg, var(--sky), var(--azure));
+      color: #06162c;
+      box-shadow: 0 8px 20px rgba(70, 180, 255, 0.35);
+      margin-top: 0.5rem;
+    }
+
+    .primary-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(70, 180, 255, 0.5);
+    }
+
+    .primary-btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
+    .ghost-btn {
+      background: rgba(6, 22, 44, 0.4);
+      color: var(--text);
+      border: 1px solid rgba(138, 211, 255, 0.4);
+      border-radius: 20px;
+      padding: 11px 20px;
+      font-weight: 400;
+      font-size: 0.95rem;
+      font-family: inherit;
+      cursor: pointer;
+      transition: var(--transition);
+      width: 100%;
+      margin-top: 0.75rem;
+    }
+
+    .ghost-btn:hover {
+      border-color: var(--sky);
+      box-shadow: 0 10px 22px rgba(70, 180, 255, 0.25);
+    }
+
+    .form-feedback {
+      margin-top: 1rem;
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      display: none;
+      line-height: 1.5;
+    }
+
+    .form-feedback.success {
+      display: block;
+      background: rgba(76, 175, 80, 0.15);
+      border: 1px solid rgba(76, 175, 80, 0.4);
+      color: #a8e6a1;
+    }
+
+    .form-feedback.error {
+      display: block;
+      background: rgba(244, 67, 54, 0.15);
+      border: 1px solid rgba(244, 67, 54, 0.4);
+      color: #ff9999;
+    }
+
+    .form-feedback.info {
+      display: block;
+      background: rgba(70, 180, 255, 0.1);
+      border: 1px solid rgba(70, 180, 255, 0.3);
+      color: var(--sky);
+    }
+
+    /* State: authenticated */
+    .auth-state {
+      text-align: center;
+    }
+
+    .auth-state .auth-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .auth-state h2 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .auth-state p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    /* Hidden utility */
+    [data-state] {
+      display: none;
+    }
+
+    [data-state].active {
+      display: block;
+    }
+
+    .footer-note {
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+      opacity: 0.6;
+    }
+  </style>
+</head>
+
+<body>
+  <a class="logo" href="/">heyDipo</a>
+
+  <div class="login-card">
+
+    <!-- State: login form (default) -->
+    <div data-state="form" class="active">
+      <h1 class="card-title">Admin Login</h1>
+      <p class="card-desc">Enter your email to receive a secure login link.</p>
+
+      <form id="loginForm" novalidate>
+        <div class="input-group">
+          <label for="emailInput">Email address</label>
+          <input
+            type="email"
+            id="emailInput"
+            name="email"
+            placeholder="you@example.com"
+            autocomplete="email"
+            inputmode="email"
+            required
+          />
+          <span class="input-error" id="emailError">Please enter a valid email address.</span>
+        </div>
+
+        <button type="submit" class="primary-btn" id="submitBtn">Send Login Link</button>
+      </form>
+
+      <div class="form-feedback" id="formFeedback"></div>
+    </div>
+
+    <!-- State: link sent -->
+    <div data-state="sent">
+      <div class="auth-state">
+        <span class="auth-icon">📬</span>
+        <h2>Check your inbox</h2>
+        <p>A login link has been sent to your email. Click it to access the admin panel.</p>
+        <p style="font-size: 0.8rem; opacity: 0.7;">The link expires in 1 hour. Check your spam folder if you don't see it.</p>
+      </div>
+    </div>
+
+    <!-- State: invalid / expired link -->
+    <div data-state="invalid">
+      <div class="form-feedback error" style="display:block; margin-top: 0;">
+        ⚠️ This login link has expired or is invalid. Please request a new one.
+      </div>
+      <button class="ghost-btn" id="retryFromInvalid">Try again</button>
+    </div>
+
+    <!-- State: already authenticated -->
+    <div data-state="authenticated">
+      <div class="auth-state">
+        <span class="auth-icon">✅</span>
+        <h2>You're logged in</h2>
+        <p id="authUserEmail" style="color: var(--sky); font-size: 0.9rem; margin-bottom: 1rem;"></p>
+        <div class="btn-group">
+          <a href="/journals/" class="primary-btn" style="display:block; text-align:center; text-decoration:none; padding: 13px 20px;">Go to Journals</a>
+          <button class="ghost-btn" id="logoutBtn">Log out</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="footer-note">Private access only.</p>
+
+  <script type="module">
+    import { supabase } from '/assets/js/supabase-client.js';
+
+    // ── State helpers ─────────────────────────────────────────────────────────
+    function showState(name) {
+      document.querySelectorAll('[data-state]').forEach(el => {
+        el.classList.toggle('active', el.dataset.state === name);
+      });
+    }
+
+    // ── On load: check for error hash or existing session ────────────────────
+    (async () => {
+      const hash = window.location.hash;
+
+      // Supabase magic link error
+      if (hash.includes('error=')) {
+        showState('invalid');
+        return;
+      }
+
+      // Check active session
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        showState('authenticated');
+        const emailEl = document.getElementById('authUserEmail');
+        if (emailEl) emailEl.textContent = session.user.email;
+        return;
+      }
+
+      showState('form');
+    })();
+
+    // ── Auth state listener ───────────────────────────────────────────────────
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN' && session) {
+        showState('authenticated');
+        const emailEl = document.getElementById('authUserEmail');
+        if (emailEl) emailEl.textContent = session.user.email;
+      }
+      if (event === 'SIGNED_OUT') {
+        showState('form');
+      }
+    });
+
+    // ── Login form submission ─────────────────────────────────────────────────
+    const loginForm = document.getElementById('loginForm');
+    const emailInput = document.getElementById('emailInput');
+    const emailError = document.getElementById('emailError');
+    const submitBtn = document.getElementById('submitBtn');
+    const formFeedback = document.getElementById('formFeedback');
+
+    function setFeedback(type, msg) {
+      formFeedback.className = 'form-feedback ' + type;
+      formFeedback.textContent = msg;
+    }
+
+    function clearFeedback() {
+      formFeedback.className = 'form-feedback';
+      formFeedback.textContent = '';
+    }
+
+    function validateEmail(val) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim());
+    }
+
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearFeedback();
+
+      const email = emailInput.value.trim();
+
+      // Frontend format validation
+      if (!validateEmail(email)) {
+        emailInput.classList.add('invalid');
+        emailError.classList.add('visible');
+        emailInput.focus();
+        return;
+      }
+
+      emailInput.classList.remove('invalid');
+      emailError.classList.remove('visible');
+
+      // Disable while in-flight
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          emailRedirectTo: 'https://heydipo.github.io/journals/',
+          shouldCreateUser: false,
+        },
+      });
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send Login Link';
+
+      if (error) {
+        // Supabase returns an error if the user doesn't exist (sign-ups disabled)
+        // Show generic message to avoid revealing whether email is registered
+        setFeedback('error', 'Unable to send login link. Please check your email and try again.');
+        return;
+      }
+
+      showState('sent');
+    });
+
+    // Clear validation styling on input
+    emailInput.addEventListener('input', () => {
+      emailInput.classList.remove('invalid');
+      emailError.classList.remove('visible');
+      clearFeedback();
+    });
+
+    // ── Retry button (from invalid state) ────────────────────────────────────
+    document.getElementById('retryFromInvalid').addEventListener('click', () => {
+      window.history.replaceState(null, '', window.location.pathname);
+      showState('form');
+    });
+
+    // ── Logout ───────────────────────────────────────────────────────────────
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await supabase.auth.signOut();
+    });
+  </script>
+</body>
+
+</html>
+
