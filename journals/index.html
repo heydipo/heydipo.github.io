@@ -652,7 +652,7 @@
       publishBtn.textContent = 'Publishing…';
       clearComposerFeedback();
 
-      const { error } = await supabase.from('posts').insert({
+      const { error } = await supabase.from('journals').insert({
         content,
         author_id: currentUserId,
       });
@@ -683,7 +683,7 @@
       showPanel('loadingState');
 
       const { data: posts, error } = await supabase
-        .from('posts')
+        .from('journals')
         .select('id, content, created_at, updated_at')
         .order('created_at', { ascending: false });
 
@@ -782,7 +782,7 @@
         saveBtn.textContent = 'Saving…';
 
         const { data, error } = await supabase
-          .from('posts')
+          .from('journals')
           .update({ content: newContent, updated_at: new Date().toISOString() })
           .eq('id', post.id)
           .select()
@@ -822,7 +822,7 @@
         confirmDeleteBtn.textContent = 'Deleting…';
 
         const { error } = await supabase
-          .from('posts')
+          .from('journals')
           .delete()
           .eq('id', post.id);
 
