@@ -114,11 +114,18 @@
       font-size: 0.95rem;
     }
 
-    /* ── Formatting toolbar ── */
+    /* ── Composer header with toolbar & count ── */
+    .composer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 10px;
+    }
+
     .format-toolbar {
       display: flex;
       gap: 6px;
-      margin-bottom: 10px;
     }
 
     .format-btn {
@@ -194,12 +201,6 @@
       align-items: center;
       justify-content: space-between;
       margin-top: 0.75rem;
-      gap: 1rem;
-    }
-
-    .composer-controls {
-      display: flex;
-      align-items: center;
       gap: 1rem;
     }
 
@@ -350,6 +351,10 @@
       margin-bottom: 0.85rem;
     }
 
+    .post-card.no-meta .post-content {
+      margin-bottom: 0;
+    }
+
     .post-content strong {
       color: var(--sky);
       font-weight: 600;
@@ -387,6 +392,14 @@
       justify-content: space-between;
       gap: 0.75rem;
       flex-wrap: wrap;
+    }
+
+    .post-card.no-meta:not(.admin-active) .post-footer {
+      display: none;
+    }
+
+    .post-card.no-meta.admin-active .post-footer {
+      margin-top: 0.5rem;
     }
 
     .post-meta {
@@ -653,13 +666,9 @@
       }
 
       .composer-footer {
-        flex-direction: column-reverse;
+        flex-direction: column;
         align-items: stretch;
-      }
-
-      .composer-controls {
-        justify-content: space-between;
-        width: 100%;
+        gap: 0.85rem;
       }
 
       .publish-btn {
@@ -692,25 +701,25 @@
 
     <!-- Composer (admin only) -->
     <div id="composer">
-      <div class="format-toolbar">
-        <button type="button" class="format-btn" data-prefix="**" title="Bold"><b>B</b></button>
-        <button type="button" class="format-btn" data-prefix="*" title="Italic"><i>I</i></button>
-        <button type="button" class="format-btn" data-prefix="__" title="Underline"><u>U</u></button>
-        <button type="button" class="format-btn" data-prefix="~~" title="Strikethrough"><s>S</s></button>
-        <button type="button" class="format-btn" data-prefix="code" title="Code"><code>&lt;&gt;</code></button>
+      <div class="composer-header">
+        <div class="format-toolbar">
+          <button type="button" class="format-btn" data-prefix="**" title="Bold"><b>B</b></button>
+          <button type="button" class="format-btn" data-prefix="*" title="Italic"><i>I</i></button>
+          <button type="button" class="format-btn" data-prefix="__" title="Underline"><u>U</u></button>
+          <button type="button" class="format-btn" data-prefix="~~" title="Strikethrough"><s>S</s></button>
+          <button type="button" class="format-btn" data-prefix="code" title="Code"><code>&lt;&gt;</code></button>
+        </div>
+        <span class="char-count" id="charCount">0 / 500</span>
       </div>
       <textarea class="composer-textarea" id="composerText" placeholder="Transmit a signal…" maxlength="500"
         rows="4"></textarea>
       <div class="composer-footer">
-        <span class="char-count" id="charCount">0 / 500</span>
-        <div class="composer-controls">
-          <label class="timestamp-toggle-wrap" title="Show or hide timestamp on public feed">
-            <input type="checkbox" id="composerShowTimestamp" checked />
-            <span class="toggle-track"></span>
-            <span>Show timestamp</span>
-          </label>
-          <button class="publish-btn" id="publishBtn" disabled>Publish</button>
-        </div>
+        <label class="timestamp-toggle-wrap" title="Show or hide timestamp on public feed">
+          <input type="checkbox" id="composerShowTimestamp" checked />
+          <span class="toggle-track"></span>
+          <span id="composerTimestampLabel">Show timestamp</span>
+        </label>
+        <button class="publish-btn" id="publishBtn" disabled>Publish</button>
       </div>
       <div class="feedback" id="composerFeedback"></div>
     </div>
@@ -770,6 +779,7 @@
     const composer = document.getElementById('composer');
     const composerText = document.getElementById('composerText');
     const composerShowTimestamp = document.getElementById('composerShowTimestamp');
+    const composerTimestampLabel = document.getElementById('composerTimestampLabel');
     const charCount = document.getElementById('charCount');
     const publishBtn = document.getElementById('publishBtn');
     const composerFb = document.getElementById('composerFeedback');
@@ -904,6 +914,9 @@
         adminEmailEl.textContent = session.user.email;
         composer.classList.add('visible');
         // Show admin controls on already-rendered posts
+        document.querySelectorAll('.post-card').forEach(el => {
+          el.classList.add('admin-active');
+        });
         document.querySelectorAll('.post-admin-controls').forEach(el => {
           el.classList.add('visible');
         });
@@ -913,6 +926,9 @@
         adminBar.classList.remove('visible');
         composer.classList.remove('visible');
         adminEmailEl.textContent = '';
+        document.querySelectorAll('.post-card').forEach(el => {
+          el.classList.remove('admin-active');
+        });
         document.querySelectorAll('.post-admin-controls').forEach(el => {
           el.classList.remove('visible');
         });
@@ -928,6 +944,14 @@
     });
 
     // ── Composer ──────────────────────────────────────────────────────────────
+    if (composerShowTimestamp && composerTimestampLabel) {
+      composerShowTimestamp.addEventListener('change', () => {
+        composerTimestampLabel.textContent = composerShowTimestamp.checked
+          ? 'Show timestamp'
+          : 'Hide timestamp';
+      });
+    }
+
     composerText.addEventListener('input', () => {
       const len = composerText.value.length;
       charCount.textContent = `${len} / ${MAX_CHARS}`;
@@ -959,7 +983,10 @@
       }
 
       composerText.value = '';
-      if (composerShowTimestamp) composerShowTimestamp.checked = true;
+      if (composerShowTimestamp) {
+        composerShowTimestamp.checked = true;
+        if (composerTimestampLabel) composerTimestampLabel.textContent = 'Show timestamp';
+      }
       charCount.textContent = '0 / 500';
       charCount.classList.remove('over');
       showComposerFeedback('success', 'Signal sent.');
@@ -1009,6 +1036,13 @@
       card.dataset.id = post.id;
 
       const shouldShowTime = post.show_timestamp !== false;
+      if (!shouldShowTime) {
+        card.classList.add('no-meta');
+      }
+      if (isAdmin) {
+        card.classList.add('admin-active');
+      }
+
       const metaHtml = shouldShowTime ? `<div class="post-meta">${formatDate(post.created_at)}</div>` : '';
 
       card.innerHTML = `
@@ -1035,7 +1069,7 @@
             <label class="timestamp-toggle-wrap" title="Show or hide timestamp on public feed">
               <input type="checkbox" class="edit-timestamp-toggle" ${shouldShowTime ? 'checked' : ''} />
               <span class="toggle-track"></span>
-              <span>Show timestamp</span>
+              <span class="edit-timestamp-label">${shouldShowTime ? 'Show timestamp' : 'Hide timestamp'}</span>
             </label>
             <div class="edit-buttons">
               <button class="save-btn">Save</button>
@@ -1062,6 +1096,7 @@
       const editArea = card.querySelector('.edit-area');
       const editTextarea = card.querySelector('.edit-textarea');
       const editTimestampToggle = card.querySelector('.edit-timestamp-toggle');
+      const editTimestampLabel = card.querySelector('.edit-timestamp-label');
       const deleteConfirm = card.querySelector('.delete-confirm');
 
       const editBtn = card.querySelector('.edit-btn');
@@ -1080,11 +1115,23 @@
         });
       });
 
+      if (editTimestampToggle && editTimestampLabel) {
+        editTimestampToggle.addEventListener('change', () => {
+          editTimestampLabel.textContent = editTimestampToggle.checked
+            ? 'Show timestamp'
+            : 'Hide timestamp';
+        });
+      }
+
       // ── Edit ──
       editBtn.addEventListener('click', () => {
         editTextarea.value = post.content;
         if (editTimestampToggle) {
-          editTimestampToggle.checked = post.show_timestamp !== false;
+          const isShown = post.show_timestamp !== false;
+          editTimestampToggle.checked = isShown;
+          if (editTimestampLabel) {
+            editTimestampLabel.textContent = isShown ? 'Show timestamp' : 'Hide timestamp';
+          }
         }
         editArea.classList.add('visible');
         deleteConfirm.classList.remove('visible');
@@ -1134,14 +1181,18 @@
         // Update timestamp display in footer
         let metaEl = footerEl.querySelector('.post-meta');
         if (data.show_timestamp !== false) {
+          card.classList.remove('no-meta');
           if (!metaEl) {
             metaEl = document.createElement('div');
             metaEl.className = 'post-meta';
             footerEl.insertBefore(metaEl, controls);
           }
           metaEl.textContent = formatDate(data.created_at);
-        } else if (metaEl) {
-          metaEl.remove();
+        } else {
+          card.classList.add('no-meta');
+          if (metaEl) {
+            metaEl.remove();
+          }
         }
 
         editArea.classList.remove('visible');
