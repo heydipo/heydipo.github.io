@@ -21,7 +21,8 @@ permalink: /journal/
       --azure: #46b4ff;
       --sky: #8ad3ff;
       --cyan: #b5f1ff;
-      --glass-bg: rgba(135, 206, 235, 0.12);
+      --gold: #f5d77f;
+      --glass-bg: rgba(135, 206, 235, 0.1);
       --glass-border: rgba(173, 216, 230, 0.3);
       --shadow: 0 8px 32px rgba(0, 40, 80, 0.4);
       --text: #e8f6ff;
@@ -45,14 +46,56 @@ permalink: /journal/
       color: var(--text);
       line-height: 1.6;
       min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
     }
 
     a {
       color: inherit;
       text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ── Starlight Field ── */
+    .starlight-field {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .mote {
+      position: absolute;
+      top: var(--y);
+      left: var(--x);
+      width: var(--size);
+      height: var(--size);
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 0 6px 1px var(--cyan), 0 0 12px 2px var(--azure);
+      opacity: 0.2;
+      animation: moteFloat var(--dur) ease-in-out infinite alternate var(--delay);
+    }
+
+    @keyframes moteFloat {
+      0% {
+        transform: translate(0, 0) scale(0.8);
+        opacity: 0.15;
+      }
+      50% {
+        opacity: 0.75;
+        transform: translate(6px, -12px) scale(1.3);
+      }
+      100% {
+        transform: translate(-6px, -24px) scale(0.9);
+        opacity: 0.2;
+      }
     }
 
     main {
+      position: relative;
+      z-index: 1;
       max-width: 1200px;
       margin: 0 auto;
       padding: 4rem 2rem;
@@ -77,61 +120,177 @@ permalink: /journal/
       margin: 0 auto;
     }
 
+    /* ── Journal Grid ── */
     .journal-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 2.5rem;
+      gap: 2.75rem;
       margin-bottom: 2rem;
+      perspective: 1200px;
     }
 
-    .journal-item {
+    /* ── Layer 1: Outer Card Slot (Float & Layout) ── */
+    .card-slot {
+      display: block;
       cursor: pointer;
-      transition: transform var(--transition), filter var(--transition);
-      display: flex;
-      flex-direction: column;
-      height: 100%;
+      opacity: 0;
+      position: relative;
+      will-change: transform, opacity;
+      transform-style: preserve-3d;
     }
 
-    .journal-item:hover {
-      transform: translateY(-8px);
-      filter: brightness(1.1);
+    @keyframes cardFadeIn {
+      0% {
+        opacity: 0;
+        filter: blur(4px);
+      }
+      100% {
+        opacity: 1;
+        filter: blur(0);
+      }
     }
 
-    .journal-item-thumbnail {
+    @keyframes floatA {
+      0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-6px) rotate(1.1deg);
+      }
+    }
+
+    @keyframes floatB {
+      0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+      }
+      50% {
+        transform: translateY(6px) rotate(-1deg);
+      }
+    }
+
+    .card-slot.float-a {
+      animation: cardFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+                 floatA var(--float-dur, 6s) ease-in-out infinite var(--float-delay, 0s);
+      animation-delay: var(--stagger, 0ms), var(--float-delay, 0s);
+    }
+
+    .card-slot.float-b {
+      animation: cardFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+                 floatB var(--float-dur, 6.5s) ease-in-out infinite var(--float-delay, 0s);
+      animation-delay: var(--stagger, 0ms), var(--float-delay, 0s);
+    }
+
+    /* ── Layer 2: Inner Tarot Card (Interactive Transforms) ── */
+    .tarot-card {
       width: 100%;
       aspect-ratio: 2 / 3;
-      /* Fortune card aspect ratio */
-      background: linear-gradient(135deg, rgba(70, 180, 255, 0.3), rgba(181, 241, 255, 0.2));
+      background: linear-gradient(135deg, rgba(70, 180, 255, 0.25), rgba(181, 241, 255, 0.15));
       border: 1px solid var(--glass-border);
-      border-radius: 42px;
-      /* Slightly rounder corners for cards */
-      margin-bottom: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 4rem;
-      color: var(--cyan);
-      opacity: 1;
+      border-radius: clamp(28px, 6vw, 42px);
       background-size: cover;
       background-position: center;
       overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(0, 20, 50, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+      transform-style: preserve-3d;
+      transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+                  box-shadow 0.4s ease,
+                  border-color 0.4s ease,
+                  filter 0.4s ease;
+      will-change: transform, box-shadow;
     }
 
-    .journal-item-title {
-      font-size: 1.15rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      line-height: 1.4;
-      color: var(--text);
+    .fallback-icon {
+      font-size: 3.5rem;
+      color: var(--cyan);
+      user-select: none;
     }
 
-    .journal-item-meta {
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-bottom: auto;
+    /* ── Holographic Sheen Overlay ── */
+    .card-sheen {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      opacity: 0;
+      background: radial-gradient(
+        circle 220px at var(--sheen-x, 50%) var(--sheen-y, 50%),
+        rgba(255, 255, 255, 0.4) 0%,
+        rgba(138, 211, 255, 0.18) 35%,
+        transparent 70%
+      );
+      mix-blend-mode: overlay;
+      transition: opacity 0.3s ease;
     }
 
+    /* ── Desktop Hover Interactions ── */
+    @media (hover: hover) and (pointer: fine) {
+      .tarot-card {
+        --tilt-x: 0deg;
+        --tilt-y: 0deg;
+        --sheen-x: 50%;
+        --sheen-y: 50%;
+      }
+
+      .card-slot:hover .tarot-card {
+        transform: perspective(1000px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translateZ(18px);
+        border-color: rgba(181, 241, 255, 0.75);
+        box-shadow: 
+          0 22px 45px rgba(0, 20, 50, 0.65),
+          0 0 28px rgba(70, 180, 255, 0.38),
+          0 0 14px rgba(245, 215, 127, 0.22),
+          inset 0 0 16px rgba(181, 241, 255, 0.2);
+        filter: brightness(1.09);
+        transition: transform 0.08s ease-out, box-shadow 0.3s ease, border-color 0.3s ease, filter 0.3s ease;
+      }
+
+      .card-slot:hover .card-sheen {
+        opacity: 1;
+      }
+    }
+
+    /* ── Mobile Scroll Focus (Center 40% of Viewport) ── */
+    @media (hover: none) or (pointer: coarse) {
+      .card-slot.is-centered .tarot-card {
+        transform: translateZ(10px) scale(1.02);
+        border-color: rgba(181, 241, 255, 0.7);
+        box-shadow: 
+          0 16px 36px rgba(0, 20, 50, 0.55),
+          0 0 22px rgba(70, 180, 255, 0.32),
+          0 0 10px rgba(245, 215, 127, 0.18),
+          inset 0 0 12px rgba(181, 241, 255, 0.18);
+        filter: brightness(1.06);
+      }
+
+      .card-slot.is-centered .card-sheen {
+        opacity: 0.65;
+        background: radial-gradient(
+          circle at var(--sheen-x, 50%) var(--sheen-y, 35%),
+          rgba(255, 255, 255, 0.35) 0%,
+          rgba(138, 211, 255, 0.15) 40%,
+          transparent 70%
+        );
+      }
+    }
+
+    /* ── Tactile Touch Press Feedback ── */
+    .card-slot:active .tarot-card {
+      transform: scale(0.97) !important;
+      box-shadow: 
+        0 6px 16px rgba(0, 20, 50, 0.6),
+        0 0 16px rgba(70, 180, 255, 0.45) !important;
+      filter: brightness(1.12) !important;
+      transition: transform 0.1s ease, filter 0.1s ease, box-shadow 0.1s ease !important;
+    }
+
+    .card-slot:active .card-sheen {
+      opacity: 0.9;
+    }
+
+    /* ── Empty State ── */
     .empty-state {
       text-align: center;
       padding: 3rem 2rem;
@@ -142,14 +301,15 @@ permalink: /journal/
       font-size: 1.05rem;
     }
 
+    /* ── Responsive Breakpoints ── */
     @media (max-width: 768px) {
       main {
-        padding: 2rem 1.5rem;
+        padding: 2.5rem 1.5rem;
       }
 
       .journal-grid {
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-        gap: 1.5rem;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 1.75rem;
       }
 
       .journal-header {
@@ -158,14 +318,74 @@ permalink: /journal/
     }
 
     @media (max-width: 480px) {
+      main {
+        padding: 2rem 1rem;
+      }
+
       .journal-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.1rem;
+      }
+
+      .journal-header {
+        margin-bottom: 2rem;
+      }
+    }
+
+    /* ── Accessibility: Reduced Motion ── */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+
+      .card-slot {
+        opacity: 1 !important;
+        transform: none !important;
+        animation: none !important;
+      }
+
+      .card-slot.float-a,
+      .card-slot.float-b {
+        animation: none !important;
+      }
+
+      .tarot-card {
+        transform: none !important;
+        transition: none !important;
+      }
+
+      .starlight-field {
+        display: none !important;
       }
     }
   </style>
 </head>
 
 <body>
+  <!-- Ambient Pure-CSS Starlight Motes -->
+  <div class="starlight-field" aria-hidden="true">
+    <span class="mote" style="--x: 6%; --y: 12%; --size: 2px; --dur: 8s; --delay: 0s;"></span>
+    <span class="mote" style="--x: 18%; --y: 38%; --size: 3px; --dur: 11s; --delay: -2s;"></span>
+    <span class="mote" style="--x: 32%; --y: 15%; --size: 2px; --dur: 9s; --delay: -4s;"></span>
+    <span class="mote" style="--x: 48%; --y: 55%; --size: 2.5px; --dur: 13s; --delay: -6s;"></span>
+    <span class="mote" style="--x: 64%; --y: 22%; --size: 3px; --dur: 10s; --delay: -1s;"></span>
+    <span class="mote" style="--x: 78%; --y: 45%; --size: 2px; --dur: 12s; --delay: -5s;"></span>
+    <span class="mote" style="--x: 91%; --y: 16%; --size: 2.5px; --dur: 7.5s; --delay: -3s;"></span>
+    <span class="mote" style="--x: 12%; --y: 72%; --size: 3px; --dur: 14s; --delay: -8s;"></span>
+    <span class="mote" style="--x: 26%; --y: 86%; --size: 2px; --dur: 10s; --delay: -2.5s;"></span>
+    <span class="mote" style="--x: 42%; --y: 32%; --size: 2px; --dur: 15s; --delay: -7s;"></span>
+    <span class="mote" style="--x: 58%; --y: 78%; --size: 3px; --dur: 11s; --delay: -4.5s;"></span>
+    <span class="mote" style="--x: 74%; --y: 90%; --size: 2px; --dur: 9.5s; --delay: -1.5s;"></span>
+    <span class="mote" style="--x: 86%; --y: 68%; --size: 2.5px; --dur: 12.5s; --delay: -6.5s;"></span>
+    <span class="mote" style="--x: 8%; --y: 52%; --size: 2px; --dur: 13s; --delay: -3.5s;"></span>
+    <span class="mote" style="--x: 94%; --y: 42%; --size: 3px; --dur: 10.5s; --delay: -5.5s;"></span>
+  </div>
+
   <main>
     <div class="journal-header">
       <h1>Journal</h1>
@@ -203,6 +423,35 @@ permalink: /journal/
       return shuffled;
     }
 
+    // Pointer move handler (for 3D tilt on desktop and sheen position)
+    function handlePointerMove(e) {
+      const card = e.currentTarget.querySelector('.tarot-card');
+      if (!card) return;
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      card.style.setProperty('--sheen-x', `${x.toFixed(1)}px`);
+      card.style.setProperty('--sheen-y', `${y.toFixed(1)}px`);
+
+      if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const tiltX = (((y - centerY) / centerY) * -7).toFixed(2);
+        const tiltY = (((x - centerX) / centerX) * 7).toFixed(2);
+
+        card.style.setProperty('--tilt-x', `${tiltX}deg`);
+        card.style.setProperty('--tilt-y', `${tiltY}deg`);
+      }
+    }
+
+    function handlePointerLeave(e) {
+      const card = e.currentTarget.querySelector('.tarot-card');
+      if (!card) return;
+      card.style.setProperty('--tilt-x', '0deg');
+      card.style.setProperty('--tilt-y', '0deg');
+    }
+
     // Render posts
     function renderJournal() {
       const grid = document.getElementById('journalGrid');
@@ -215,13 +464,53 @@ permalink: /journal/
 
       const shuffledPosts = shuffleArray(posts);
 
-      grid.innerHTML = shuffledPosts.map(post => `
-        <a href="${post.url}" class="journal-item" target="_self" rel="noopener noreferrer">
-          <div class="journal-item-thumbnail" ${post.thumbnail ? `style="background-image: url('${post.thumbnail}')"` : ''}>
-            ${post.thumbnail ? '' : '📖'}
-          </div>
-        </a>
-      `).join('');
+      grid.innerHTML = shuffledPosts.map((post, idx) => {
+        // Desynchronized durations (5.4s to 7.2s)
+        const dur = (5.4 + (idx % 5) * 0.45).toFixed(2);
+        // Negative delay to start immediately mid-cycle
+        const delay = (0.8 + (idx % 7) * 0.9).toFixed(2);
+        // Staggered entrance cascade
+        const stagger = idx * 60;
+        const floatClass = idx % 2 === 0 ? 'float-a' : 'float-b';
+
+        return `
+          <a href="${post.url}" 
+             class="card-slot ${floatClass}" 
+             target="_self" 
+             rel="noopener noreferrer"
+             aria-label="${post.title || 'Journal entry'}"
+             style="--float-dur: ${dur}s; --float-delay: -${delay}s; --stagger: ${stagger}ms;">
+            <div class="tarot-card" ${post.thumbnail ? `style="background-image: url('${post.thumbnail}')"` : ''}>
+              <div class="card-sheen"></div>
+              ${post.thumbnail ? '' : '<span class="fallback-icon">📖</span>'}
+            </div>
+          </a>
+        `;
+      }).join('');
+
+      // Setup mobile scroll focus & interactive listeners
+      const slots = grid.querySelectorAll('.card-slot');
+
+      // IntersectionObserver for mobile center 40% elevation & halo
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-centered');
+          } else {
+            entry.target.classList.remove('is-centered');
+          }
+        });
+      }, {
+        root: null,
+        rootMargin: '-30% 0px -30% 0px',
+        threshold: 0.1
+      });
+
+      slots.forEach(slot => {
+        observer.observe(slot);
+        slot.addEventListener('pointermove', handlePointerMove);
+        slot.addEventListener('pointerleave', handlePointerLeave);
+      });
     }
 
     // Initialize on page load
