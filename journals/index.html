@@ -98,6 +98,7 @@
 
     /* ── Page header ── */
     .page-header {
+      text-align: center;
       margin-bottom: 2rem;
     }
 
@@ -194,6 +195,70 @@
       justify-content: space-between;
       margin-top: 0.75rem;
       gap: 1rem;
+    }
+
+    .composer-controls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    /* ── Timestamp toggle switch ── */
+    .timestamp-toggle-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .timestamp-toggle-wrap input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+      pointer-events: none;
+    }
+
+    .toggle-track {
+      position: relative;
+      width: 32px;
+      height: 18px;
+      background: rgba(6, 22, 44, 0.6);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      transition: var(--transition);
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .toggle-track::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--muted);
+      transition: var(--transition);
+    }
+
+    .timestamp-toggle-wrap input[type="checkbox"]:checked + .toggle-track {
+      background: rgba(70, 180, 255, 0.25);
+      border-color: var(--sky);
+    }
+
+    .timestamp-toggle-wrap input[type="checkbox"]:checked + .toggle-track::after {
+      transform: translateX(14px);
+      background: var(--sky);
+      box-shadow: 0 0 8px rgba(138, 211, 255, 0.6);
+    }
+
+    .timestamp-toggle-wrap:hover .toggle-track {
+      border-color: var(--sky);
     }
 
     .char-count {
@@ -396,8 +461,17 @@
 
     .edit-actions {
       display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .edit-buttons {
+      display: flex;
       gap: 0.5rem;
-      margin-top: 0.6rem;
+      margin-left: auto;
     }
 
     .save-btn {
@@ -580,7 +654,12 @@
 
       .composer-footer {
         flex-direction: column-reverse;
-        align-items: flex-end;
+        align-items: stretch;
+      }
+
+      .composer-controls {
+        justify-content: space-between;
+        width: 100%;
       }
 
       .publish-btn {
@@ -609,7 +688,6 @@
     <div class="page-header">
       <h1>Journals</h1>
       <p>A space for ideas, observations, and personal thoughts.</p>
-
     </div>
 
     <!-- Composer (admin only) -->
@@ -625,7 +703,14 @@
         rows="4"></textarea>
       <div class="composer-footer">
         <span class="char-count" id="charCount">0 / 500</span>
-        <button class="publish-btn" id="publishBtn" disabled>Publish</button>
+        <div class="composer-controls">
+          <label class="timestamp-toggle-wrap" title="Show or hide timestamp on public feed">
+            <input type="checkbox" id="composerShowTimestamp" checked />
+            <span class="toggle-track"></span>
+            <span>Show timestamp</span>
+          </label>
+          <button class="publish-btn" id="publishBtn" disabled>Publish</button>
+        </div>
       </div>
       <div class="feedback" id="composerFeedback"></div>
     </div>
@@ -684,6 +769,7 @@
     const logoutBtn = document.getElementById('logoutBtn');
     const composer = document.getElementById('composer');
     const composerText = document.getElementById('composerText');
+    const composerShowTimestamp = document.getElementById('composerShowTimestamp');
     const charCount = document.getElementById('charCount');
     const publishBtn = document.getElementById('publishBtn');
     const composerFb = document.getElementById('composerFeedback');
@@ -861,6 +947,7 @@
       const { error } = await supabase.from('journals').insert({
         content,
         author_id: currentUserId,
+        show_timestamp: composerShowTimestamp ? composerShowTimestamp.checked : true,
       });
 
       publishBtn.textContent = 'Publish';
@@ -872,6 +959,7 @@
       }
 
       composerText.value = '';
+      if (composerShowTimestamp) composerShowTimestamp.checked = true;
       charCount.textContent = '0 / 500';
       charCount.classList.remove('over');
       showComposerFeedback('success', 'Signal sent.');
@@ -890,7 +978,7 @@
 
       const { data: posts, error } = await supabase
         .from('journals')
-        .select('id, content, created_at, updated_at')
+        .select('id, content, created_at, updated_at, show_timestamp')
         .order('created_at', { ascending: false });
 
       if (error) {
@@ -920,11 +1008,14 @@
       card.className = 'post-card';
       card.dataset.id = post.id;
 
+      const shouldShowTime = post.show_timestamp !== false;
+      const metaHtml = shouldShowTime ? `<div class="post-meta">${formatDate(post.created_at)}</div>` : '';
+
       card.innerHTML = `
         <div class="post-content">${renderFormattedContent(post.content)}</div>
 
         <div class="post-footer">
-          <div class="post-meta">${formatDate(post.created_at)}</div>
+          ${metaHtml}
           <div class="post-admin-controls ${isAdmin ? 'visible' : ''}">
             <button class="admin-action-btn edit-btn">Rewrite</button>
             <button class="admin-action-btn danger delete-btn">Erase</button>
@@ -941,8 +1032,15 @@
           </div>
           <textarea class="edit-textarea">${escapeHtml(post.content)}</textarea>
           <div class="edit-actions">
-            <button class="save-btn">Save</button>
-            <button class="cancel-btn">Cancel</button>
+            <label class="timestamp-toggle-wrap" title="Show or hide timestamp on public feed">
+              <input type="checkbox" class="edit-timestamp-toggle" ${shouldShowTime ? 'checked' : ''} />
+              <span class="toggle-track"></span>
+              <span>Show timestamp</span>
+            </label>
+            <div class="edit-buttons">
+              <button class="save-btn">Save</button>
+              <button class="cancel-btn">Cancel</button>
+            </div>
           </div>
         </div>
 
@@ -959,10 +1057,11 @@
 
     function wireCardEvents(card, post) {
       const contentEl = card.querySelector('.post-content');
-      const metaEl = card.querySelector('.post-meta');
+      const footerEl = card.querySelector('.post-footer');
       const controls = card.querySelector('.post-admin-controls');
       const editArea = card.querySelector('.edit-area');
       const editTextarea = card.querySelector('.edit-textarea');
+      const editTimestampToggle = card.querySelector('.edit-timestamp-toggle');
       const deleteConfirm = card.querySelector('.delete-confirm');
 
       const editBtn = card.querySelector('.edit-btn');
@@ -984,6 +1083,9 @@
       // ── Edit ──
       editBtn.addEventListener('click', () => {
         editTextarea.value = post.content;
+        if (editTimestampToggle) {
+          editTimestampToggle.checked = post.show_timestamp !== false;
+        }
         editArea.classList.add('visible');
         deleteConfirm.classList.remove('visible');
         controls.style.display = 'none';
@@ -999,12 +1101,18 @@
         const newContent = editTextarea.value.trim();
         if (!newContent || newContent.length > MAX_CHARS) return;
 
+        const newShowTimestamp = editTimestampToggle ? editTimestampToggle.checked : true;
+
         saveBtn.disabled = true;
         saveBtn.textContent = 'Saving…';
 
         const { data, error } = await supabase
           .from('journals')
-          .update({ content: newContent, updated_at: new Date().toISOString() })
+          .update({
+            content: newContent,
+            show_timestamp: newShowTimestamp,
+            updated_at: new Date().toISOString()
+          })
           .eq('id', post.id)
           .select()
           .single();
@@ -1020,8 +1128,22 @@
         // Update in-place
         post.content = data.content;
         post.updated_at = data.updated_at;
+        post.show_timestamp = data.show_timestamp;
         contentEl.innerHTML = renderFormattedContent(data.content);
-        metaEl.textContent = formatDate(data.created_at);
+
+        // Update timestamp display in footer
+        let metaEl = footerEl.querySelector('.post-meta');
+        if (data.show_timestamp !== false) {
+          if (!metaEl) {
+            metaEl = document.createElement('div');
+            metaEl.className = 'post-meta';
+            footerEl.insertBefore(metaEl, controls);
+          }
+          metaEl.textContent = formatDate(data.created_at);
+        } else if (metaEl) {
+          metaEl.remove();
+        }
+
         editArea.classList.remove('visible');
         controls.style.display = '';
       });

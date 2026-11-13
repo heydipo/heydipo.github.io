@@ -430,15 +430,27 @@
       return 'Unknown';
     }
 
+    function getBrowserName() {
+      const ua = navigator.userAgent || '';
+      if (/Edg\//.test(ua)) return 'Edge';
+      if (/OPR\/|Opera/.test(ua)) return 'Opera';
+      if (/SamsungBrowser/.test(ua)) return 'Samsung Internet';
+      if (/Firefox\/|FxiOS/.test(ua)) return 'Firefox';
+      if (/Chrome\/|CriOS/.test(ua)) return 'Chrome';
+      if (/Safari\//.test(ua)) return 'Safari';
+      return 'Other';
+    }
+
     async function logFailedAttempt(rawInput, statusReason) {
       try {
         const attemptCount = getAndIncrementAttemptCount();
         const device = getDeviceInfo();
+        const browser = getBrowserName();
 
         const { error } = await supabase.from('login_attempts').insert({
           entered_input: rawInput.slice(0, 255),
           status: statusReason,
-          user_agent: navigator.userAgent,
+          browser: browser,
           attempt_count: attemptCount,
           device: device,
         });
