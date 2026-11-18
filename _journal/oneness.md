@@ -4,7 +4,7 @@ title: " "
 thumbnail: "/assets/journal/oneness.webp"
 ---
 <!--
-Kata kunci menuju keesaan
+Simpanlah di dalam hati dan jangan sampai terucap oleh lisanmu.
 
 - Cahaya
 - Rasa

@@ -50,7 +50,7 @@ thumbnail: "/assets/journal/range.webp"
 - Setiap orang maju dengan kecepatan yang berbeda, jadi jangan biarkan orang lain membuat anda merasa ketinggalan. (349)
 
 
-**Wawasan**
+**Insights**
 - Tiger Woods membangun keahlian golfnya sejak dia masih sangat dini ketika ayahnya memberinya tongkat golf setinggi pundaknya saat dia berusia dua tahun. (2)
 > *Antara bakat atau ambisi orang tua.*
 

@@ -62,7 +62,7 @@ thumbnail: "/assets/journal/filsafat-kebahagiaan.webp"
 - Syukur-syukur kalau anda bisa menuliskan refleksimu. Siapa dirimu menurutmu? Anda membaca durimu menurut anda sendiri. (270)
 
 
-**Wawasan**
+**Insights**
 - Plato itu nama panggilan. Nama aslinya adalah Aristocles. (20)
 
 - Plato berasal dari keluarga bangsawan. (20)
