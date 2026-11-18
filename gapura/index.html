@@ -308,8 +308,8 @@
         <h2>You've entered the realm.</h2>
         <p id="authUserEmail" style="color: var(--sky); font-size: 0.9rem; margin-bottom: 1rem;"></p>
         <div class="btn-group">
-          <a href="/journals/" class="primary-btn"
-            style="display:block; text-align:center; text-decoration:none; padding: 13px 20px;">Go to Journals</a>
+          <a href="/timeline/" class="primary-btn"
+            style="display:block; text-align:center; text-decoration:none; padding: 13px 20px;">Go to Timeline</a>
           <button class="ghost-btn" id="logoutBtn">Leave this realm</button>
         </div>
       </div>
@@ -488,7 +488,7 @@
       const { error } = await supabase.auth.signInWithOtp({
         email: rawInput,
         options: {
-          emailRedirectTo: 'https://heydipo.github.io/journals/',
+          emailRedirectTo: 'https://heydipo.github.io/timeline/',
           shouldCreateUser: false,
         },
       });

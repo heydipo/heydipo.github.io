@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Journals — heyDipo</title>
+  <title>Timeline — heyDipo</title>
   <link rel="icon" type="x-icon" href="/assets/general/favicon.ico" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -695,7 +695,7 @@
 
     <!-- Page header -->
     <div class="page-header">
-      <h1>Journals</h1>
+      <h1>Timeline</h1>
       <p>A space for ideas, observations, and personal thoughts.</p>
     </div>
 
@@ -968,7 +968,7 @@
       publishBtn.textContent = 'Publishing…';
       clearComposerFeedback();
 
-      const { error } = await supabase.from('journals').insert({
+      const { error } = await supabase.from('timeline').insert({
         content,
         author_id: currentUserId,
         show_timestamp: composerShowTimestamp ? composerShowTimestamp.checked : true,
@@ -1004,7 +1004,7 @@
       showPanel('loadingState');
 
       const { data: posts, error } = await supabase
-        .from('journals')
+        .from('timeline')
         .select('id, content, created_at, updated_at, show_timestamp')
         .order('created_at', { ascending: false });
 
@@ -1154,7 +1154,7 @@
         saveBtn.textContent = 'Saving…';
 
         const { data, error } = await supabase
-          .from('journals')
+          .from('timeline')
           .update({
             content: newContent,
             show_timestamp: newShowTimestamp,
@@ -1216,7 +1216,7 @@
         confirmDeleteBtn.textContent = 'Erasing…';
 
         const { error } = await supabase
-          .from('journals')
+          .from('timeline')
           .delete()
           .eq('id', post.id);
 
